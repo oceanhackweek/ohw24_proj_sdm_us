@@ -6,12 +6,13 @@ latmax: 45.0
 lonmin: -71.0
 lonmax: -64.0
 version: one
+start_year: 2000.0
+end_year: '2020'
 envVars:
-- pH
-- Surface Temperature
-- Bottom Temperature
-- Dissolved Oxygen
-- Surface salinity
-- Bottom salinity
-- Chlorophyll
-- Depth
+- BO_ph
+- BO_bathymean
+- BO_chlomean
+- BO_dissox
+- BO_nitrate
+- BO_salinity
+- BO_sstmean
