@@ -1,0 +1,182 @@
+---
+title: "Occurrence_data"
+format: html
+editor: visual
+---
+
+## Occurrence Data
+
+## Basking shark occurrence data
+
+```{r}
+#load all your libraries
+library(dplyr)
+library(readxl)
+library(ggplot2)
+library(ggpubr)
+library(rmarkdown)
+library(leaflet)
+library(mapview)
+library(ggmap)#for maps
+library(devtools)
+library(htmlwidgets)
+library(webshot)
+library(geodata)
+library(geodata)
+library(lubridate)
+library(stringr)
+library(tidyr)
+library(tidyverse)
+library(robis)
+```
+
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+```{r}
+#set working directory
+setwd("/Users/lizamaguire/Desktop/Grad school materials") 
+```
+
+```{r}
+#BASKING SHARK
+basking_data <- occurrence("Cetorhinus maximus")
+
+# Define your time range
+start_year <- 2000
+end_year <- 2024
+#code for getting date column into year and month format
+basking_data <- basking_data %>%
+  separate(eventDate, into = c("Year", "Month"), sep = "-")
+
+basking_data <- basking_data %>%
+  filter(!is.na(Year))
+
+basking_data <- basking_data %>%
+  filter(grepl("^\\d{4}$", as.character(Year)))
+```
+
+```{r}
+# Filter the data to only include occurrences from 2000-2024
+filtered_basking_data <- subset(basking_data, date_year >= start_year & date_year <= end_year)
+
+# set max and min spatial boundaries
+summary(filtered_basking_data$decimalLatitude)
+summary(filtered_basking_data$decimalLongitude)
+lat_min <- 40.0
+lat_max <- 47.0
+lon_min <- -75.0
+lon_max <- -60.0
+```
+
+```{r}
+#select for specifies spatial boundaries in occurrence data
+bounded_data <- filtered_basking_data %>%
+  filter(decimalLatitude >= lat_min & decimalLatitude <= lat_max &
+           decimalLongitude >= lon_min & decimalLongitude <= lon_max)
+```
+
+```{r}
+#subsetting dataset to keep only required columns 
+subset_bounded_data <- select(bounded_data, datasetName, decimalLatitude, decimalLongitude, Year, Month, individualCount, vernacularName)
+```
+
+```{r}
+# Create a leaflet map
+basking_leaflet_map <- leaflet(data = subset_bounded_data) %>%
+  addTiles() %>%
+  addCircles(lng = ~decimalLongitude, lat = ~decimalLatitude,
+             radius = 5,  # Adjust the radius as needed
+             color = "blue",
+             fillOpacity = 0.5)
+# Print the map
+basking_leaflet_map
+#write csv file
+write.csv(subset_bounded_data, file="/Users/lizamaguire/Desktop/Grad school materials/subset_bounded_basking_data")
+```
+
+## Longfin squid occurrence data
+
+```{r}
+#LONGFIN SQUID
+squid_data <- occurrence("Doryteuthis pealeii")
+# Define your time range
+start_year <- 2000
+end_year <- 2024
+
+#code for getting date column into year and month format
+squid_data <- squid_data %>%
+  separate(eventDate, into = c("Year", "Month"), sep = "-")
+
+squid_data <- squid_data %>%
+  filter(!is.na(Year))
+
+squid_data <- squid_data %>%
+  filter(grepl("^\\d{4}$", as.character(Year)))
+```
+
+```{r}
+# Filter the data to only include occurrences from 2000-2024
+filtered_squid_data <- subset(squid_data, date_year >= start_year & date_year <= end_year)
+
+# set max and min spatial boundaries
+summary(filtered_squid_data$decimalLatitude)
+summary(filtered_squid_data$decimalLongitude)
+lat_min <- 40.0
+lat_max <- 47.0
+lon_min <- -75.0
+lon_max <- -60.0
+```
+
+```{r}
+#select for specifies spatial boundaries in occurrence data
+bounded_squid_data <- filtered_squid_data %>%
+  filter(decimalLatitude >= lat_min & decimalLatitude <= lat_max &
+           decimalLongitude >= lon_min & decimalLongitude <= lon_max)
+
+# Create a leaflet map
+squid_leaflet_map <- leaflet(data = bounded_squid_data) %>%
+  addTiles() %>%
+  addCircles(lng = ~decimalLongitude, lat = ~decimalLatitude,
+             radius = 5,  # Adjust the radius as needed
+             color = "blue",
+             fillOpacity = 0.5)
+# Print the map
+squid_leaflet_map
+```
+
+**Filtered squid data for specific eras (2000-2010)**
+
+```{r}
+# Filter data for a specific time range, e.g., 2000-2005
+filtered_squid_data_2000_2010 <- filtered_squid_data %>%
+  filter(Year >= 2000 & Year <= 2010)
+
+# set max and min spatial boundaries
+summary(filtered_squid_data$decimalLatitude)
+summary(filtered_squid_data$decimalLongitude)
+lat_min <- 40.0
+lat_max <- 47.0
+lon_min <- -75.0
+lon_max <- -60.0
+```
+
+```{r}
+#select for specifies spatial boundaries in occurrence data
+bounded_squid_data <- filtered_squid_data_2000_2010 %>%
+  filter(decimalLatitude >= lat_min & decimalLatitude <= lat_max &
+           decimalLongitude >= lon_min & decimalLongitude <= lon_max)
+```
+
+```{r}
+# Create a leaflet map
+squid_leaflet_map_2000_2010 <- leaflet(data = bounded_squid_data) %>%
+  addTiles() %>%
+  addCircles(lng = ~decimalLongitude, lat = ~decimalLatitude,
+             radius = 5,  # Adjust the radius as needed
+             color = "blue",
+             fillOpacity = 0.5)
+# Print the map
+squid_leaflet_map_2000_2010
+```
