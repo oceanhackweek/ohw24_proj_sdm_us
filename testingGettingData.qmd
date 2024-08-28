@@ -14,78 +14,62 @@ library(robis)
 #For data manipultaion: 
 library(tidyverse)
 #Not used, but anohter method to get data:
-library(rerddap)
+#library(rerddap)
 #Get genera API data:
-library(httr)
+#library(httr)
 library(lubridate)
+library(sdmpredictors)
 ```
 
-### Testing rerdap package. I could not get it to work with the dataset we want. 
+
+
+## To see datasets
 ```{r}
-Info <- info('tas_baseline_2000_2020_depthsurf')
-test <- griddap(sstInfo, latitude = latitude, longitude = longitude, time = time, fields = 'analysed_sst')
-
+datasets <- list_datasets(terrestrial = FALSE, marine = TRUE)
+#View(datasets[,c("dataset_code", "description")])
+layers <- list_layers(datasets)
+layers
 ```
 
-###An example of using GET with a url. This fetches data, but it is so much at once that it is hard to work with.
+## Future datasets
 ```{r}
-data <- GET("https://erddap.bio-oracle.org/erddap/griddap/tas_baseline_2000_2020_depthsurf.htmlTable?tas_max%5B(2010-01-01T00:00:00Z):1:(2010-01-01T00:00:00Z)%5D%5B(-89.975):1:(89.975)%5D%5B(-179.975):1:(179.975)%5D,tas_ltmax%5B(2010-01-01T00:00:00Z):1:(2010-01-01T00:00:00Z)%5D%5B(-89.975):1:(89.975)%5D%5B(-179.975):1:(179.975)%5D,tas_mean%5B(2010-01-01T00:00:00Z):1:(2010-01-01T00:00:00Z)%5D%5B(-89.975):1:(89.975)%5D%5B(-179.975):1:(179.975)%5D,tas_ltmin%5B(2010-01-01T00:00:00Z):1:(2010-01-01T00:00:00Z)%5D%5B(-89.975):1:(89.975)%5D%5B(-179.975):1:(179.975)%5D,tas_min%5B(2010-01-01T00:00:00Z):1:(2010-01-01T00:00:00Z)%5D%5B(-89.975):1:(89.975)%5D%5B(-179.975):1:(179.975)%5D,tas_range%5B(2010-01-01T00:00:00Z):1:(2010-01-01T00:00:00Z)%5D%5B(-89.975):1:(89.975)%5D%5B(-179.975):1:(179.975)%5D")
-```
-
-##An example that could become an easier function.
-### Using a generic API function (GET from the httr package) works. 
-Data can then be written as a csv and re-read. There is probably a more elegant way to do this!
-
-```{r}
-data <- GET("https://erddap.bio-oracle.org/erddap/griddap/tas_ssp119_2020_2100_depthsurf.csv?tas_mean%5B(2020-01-01):1:(2050-01-01)%5D%5B(42.0):1:(46)%5D%5B(-71):1:(-64)%5D")
+future <- list_layers_future(terrestrial = FALSE) 
+# available scenarios 
+future
 ```
 
 
-
-Now write then read csv:
-```{r}
-bin <- content(data, "raw")
-writeBin(bin, "data2.csv")
-
-# Read as csv
-dat = read.csv("data2.csv", header = TRUE, dec = ",")
-dat <- dat[-1,] #this gets rid of the first line, which is units (messes up numeric cols)
-```
-
-Now we can look at it!
-```{r}
-
-dat
-```
-
-### Plotting to make sure we have the right area and no gaps:
-```{r}
-
-dat_clean <- dat %>% 
-  #First need to make sure columns are numeric
-  mutate(Lat = as.numeric(latitude)) %>% 
-  mutate(Lon = as.numeric(longitude)) %>% 
-  mutate(dataset = as.numeric(tas_mean)) %>% #make sure to change variable name!
-  mutate(year = year(time)) %>% 
-  mutate(month = month(time)) %>% 
-  mutate(date = date(time))
-  #Now we can use the ggplot package to plot
-dat_clean %>% 
-  ggplot(aes(x = Lon, y = Lat, color = dataset)) +
-  geom_point()
-```
 
 ```{r}
-dat_clean
-```
+dir <- "ohw-tutorials/data"
+# download pH and Salinity to the temporary directory
+load_layers(layers[layers$name %in% c("pH") & 
+                     layers$dataset_code == "Bio-ORACLE",], datadir = dir)
 
-Check temporal resolution:
+# set a default datadir, preferably something different from tempdir()
+options(sdmpredictors_datadir= dir)
+
+# (down)load specific layers 
+specific <- load_layers(c("BO_ph"))
+
+# equal area data (Behrmann equal area projection) 
+equalarea <- load_layers("BO_ph", equalarea = TRUE)
+plot(equalarea)
+```
 ```{r}
-dat_clean %>% 
-  ggplot(aes(x = date, y = dataset)) + 
-  geom_line()
+layercodes <- c("BO_nitrate")
+env <- load_layers(layercodes, equalarea = FALSE)
+
 ```
 
+## Or even simpler: 
+```{r}
+oct <- load_layers("MS_sst10_5m")
+
+```
+
+# Next steps
+- Crop rasters
 
 
 
