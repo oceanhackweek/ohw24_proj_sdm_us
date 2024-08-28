@@ -1,0 +1,78 @@
+---
+title: "Obis"
+format: html
+editor: visual
+---
+
+#Important notes!
+Dataset list is available HERE https://erddap.bio-oracle.org/erddap/search/index.html?page=1&itemsPerPage=1000&searchFor=Bio-OracleS
+
+### Step 1: Import Libraries
+```{r}
+#For getting species data -- not used here:
+library(robis)
+#For data manipultaion: 
+library(tidyverse)
+#Not used, but anohter method to get data:
+library(rerddap)
+#Get genera API data:
+library(httr)
+```
+
+### Testing rerdap package. I could not get it to work with the dataset we want. 
+```{r}
+Info <- info('tas_baseline_2000_2020_depthsurf')
+test <- griddap(sstInfo, latitude = latitude, longitude = longitude, time = time, fields = 'analysed_sst')
+
+```
+
+###An example of using GET with a url. This fetches data, but it is so much at once that it is hard to work with.
+```{r}
+data <- GET("https://erddap.bio-oracle.org/erddap/griddap/tas_baseline_2000_2020_depthsurf.htmlTable?tas_max%5B(2010-01-01T00:00:00Z):1:(2010-01-01T00:00:00Z)%5D%5B(-89.975):1:(89.975)%5D%5B(-179.975):1:(179.975)%5D,tas_ltmax%5B(2010-01-01T00:00:00Z):1:(2010-01-01T00:00:00Z)%5D%5B(-89.975):1:(89.975)%5D%5B(-179.975):1:(179.975)%5D,tas_mean%5B(2010-01-01T00:00:00Z):1:(2010-01-01T00:00:00Z)%5D%5B(-89.975):1:(89.975)%5D%5B(-179.975):1:(179.975)%5D,tas_ltmin%5B(2010-01-01T00:00:00Z):1:(2010-01-01T00:00:00Z)%5D%5B(-89.975):1:(89.975)%5D%5B(-179.975):1:(179.975)%5D,tas_min%5B(2010-01-01T00:00:00Z):1:(2010-01-01T00:00:00Z)%5D%5B(-89.975):1:(89.975)%5D%5B(-179.975):1:(179.975)%5D,tas_range%5B(2010-01-01T00:00:00Z):1:(2010-01-01T00:00:00Z)%5D%5B(-89.975):1:(89.975)%5D%5B(-179.975):1:(179.975)%5D")
+```
+
+##An example that could become an easier function.
+### Using a generic API function (GET from the httr package) works. 
+Data can then be written as a csv and re-read. There is probably a more elegant way to do this!
+```{r}
+
+ data = GET(paste0("https://erddap.bio-oracle.org/erddap/griddap/",
+           "tas_baseline_2000_2020_depthsurf",
+           ".csv?",
+           "tas_ltmin",
+          "[(2010-01-01T00:00:00Z):(2010-01-01T00:00:00Z)]",
+           "[(42.0):(46.0)]",
+           "[(-71):(-64)]"))
+```
+
+Now write then read csv:
+```{r}
+bin <- content(res, "raw")
+writeBin(bin, "data1.csv")
+
+# Read as csv
+dat = read.csv("data1.csv", header = TRUE, dec = ",")
+```
+
+Now we can look at it!
+```{r}
+dat
+```
+
+### Plotting to make sure we have the right area and no gaps:
+```{r}
+dat %>% 
+  #First need to make sure columns are numeric
+  mutate(Lat = as.numeric(latitude)) %>% 
+  mutate(Lon = as.numeric(longitude)) %>% 
+  mutate(dataset = as.numeric(tas_ltmin)) %>% 
+  #Now we can use the ggplot package to plot
+  ggplot(aes(x = Lon, y = Lat, color = dataset)) +
+  geom_point()
+```
+```
+
+
+
+
+
