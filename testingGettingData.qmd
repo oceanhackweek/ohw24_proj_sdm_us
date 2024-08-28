@@ -4,10 +4,10 @@ format: html
 editor: visual
 ---
 
-#Important notes!
-Dataset list is available HERE https://erddap.bio-oracle.org/erddap/search/index.html?page=1&itemsPerPage=1000&searchFor=Bio-OracleS
+#Important notes! Dataset list is available HERE https://erddap.bio-oracle.org/erddap/search/index.html?page=1&itemsPerPage=1000&searchFor=Bio-OracleS
 
 ### Step 1: Import Libraries
+
 ```{r}
 #For getting species data -- not used here:
 library(robis)
@@ -21,9 +21,8 @@ library(lubridate)
 library(sdmpredictors)
 ```
 
-
-
 ## To see datasets
+
 ```{r}
 datasets <- list_datasets(terrestrial = FALSE, marine = TRUE)
 #View(datasets[,c("dataset_code", "description")])
@@ -32,45 +31,57 @@ layers
 ```
 
 ## Future datasets
+
 ```{r}
 future <- list_layers_future(terrestrial = FALSE) 
 # available scenarios 
 future
 ```
 
-
-
 ```{r}
 dir <- "ohw-tutorials/data"
 # download pH and Salinity to the temporary directory
-load_layers(layers[layers$name %in% c("pH") & 
-                     layers$dataset_code == "Bio-ORACLE",], datadir = dir)
+load_layers(layers[layers$name %in% c("Bathymetry (mean)") & 
+                     layers$dataset_code == "Bio-ORACLE"], datadir = dir)
 
 # set a default datadir, preferably something different from tempdir()
 options(sdmpredictors_datadir= dir)
 
 # (down)load specific layers 
-specific <- load_layers(c("BO_ph"))
+specific <- load_layers(c("BO_bathymean"))
+
+vars <- c("BO_ph","BO_bathymean","BO_chlomean","BO_dissox","BO_nitrate","BO_salinity","BO_sstmean")
 
 # equal area data (Behrmann equal area projection) 
-equalarea <- load_layers("BO_ph", equalarea = TRUE)
-plot(equalarea)
+equalarea <- load_layers(("BO_bathymean"), equalarea = FALSE)
+raster::plot(equalarea)
 ```
+```{r}
+e <- raster::extent(-71,-64,42,45)
+rc <- raster::crop(equalarea, e)
+raster::plot(rc)
+```
+```{r}
+```
+
+
+```{r}
+list_layers(marine = TRUE)
+```
+
 ```{r}
 layercodes <- c("BO_nitrate")
 env <- load_layers(layercodes, equalarea = FALSE)
 
 ```
 
-## Or even simpler: 
+## Or even simpler:
+
 ```{r}
 oct <- load_layers("MS_sst10_5m")
 
 ```
 
 # Next steps
-- Crop rasters
 
-
-
-
+-   Crop rasters
