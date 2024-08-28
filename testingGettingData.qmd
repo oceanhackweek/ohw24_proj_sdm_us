@@ -17,6 +17,7 @@ library(tidyverse)
 library(rerddap)
 #Get genera API data:
 library(httr)
+library(lubridate)
 ```
 
 ### Testing rerdap package. I could not get it to work with the dataset we want. 
@@ -34,42 +35,55 @@ data <- GET("https://erddap.bio-oracle.org/erddap/griddap/tas_baseline_2000_2020
 ##An example that could become an easier function.
 ### Using a generic API function (GET from the httr package) works. 
 Data can then be written as a csv and re-read. There is probably a more elegant way to do this!
-```{r}
 
- data = GET(paste0("https://erddap.bio-oracle.org/erddap/griddap/",
-           "tas_baseline_2000_2020_depthsurf",
-           ".csv?",
-           "tas_ltmin",
-          "[(2010-01-01T00:00:00Z):(2010-01-01T00:00:00Z)]",
-           "[(42.0):(46.0)]",
-           "[(-71):(-64)]"))
+```{r}
+data <- GET("https://erddap.bio-oracle.org/erddap/griddap/tas_ssp119_2020_2100_depthsurf.csv?tas_mean%5B(2020-01-01):1:(2050-01-01)%5D%5B(42.0):1:(46)%5D%5B(-71):1:(-64)%5D")
 ```
+
+
 
 Now write then read csv:
 ```{r}
-bin <- content(res, "raw")
-writeBin(bin, "data1.csv")
+bin <- content(data, "raw")
+writeBin(bin, "data2.csv")
 
 # Read as csv
-dat = read.csv("data1.csv", header = TRUE, dec = ",")
+dat = read.csv("data2.csv", header = TRUE, dec = ",")
+dat <- dat[-1,] #this gets rid of the first line, which is units (messes up numeric cols)
 ```
 
 Now we can look at it!
 ```{r}
+
 dat
 ```
 
 ### Plotting to make sure we have the right area and no gaps:
 ```{r}
-dat %>% 
+
+dat_clean <- dat %>% 
   #First need to make sure columns are numeric
   mutate(Lat = as.numeric(latitude)) %>% 
   mutate(Lon = as.numeric(longitude)) %>% 
-  mutate(dataset = as.numeric(tas_ltmin)) %>% 
+  mutate(dataset = as.numeric(tas_mean)) %>% #make sure to change variable name!
+  mutate(year = year(time)) %>% 
+  mutate(month = month(time)) %>% 
+  mutate(date = date(time))
   #Now we can use the ggplot package to plot
+dat_clean %>% 
   ggplot(aes(x = Lon, y = Lat, color = dataset)) +
   geom_point()
 ```
+
+```{r}
+dat_clean
+```
+
+Check temporal resolution:
+```{r}
+dat_clean %>% 
+  ggplot(aes(x = date, y = dataset)) + 
+  geom_line()
 ```
 
 
