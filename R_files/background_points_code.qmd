@@ -7,9 +7,11 @@ editor: visual
 ## Code for creating background points
 
 ```{r}
+install.packages("stars")
+library(stars)
 library(raster)
 library(sdmpredictors)
-#Get data from the sdmpredictors package
+
 layercodes <- c("BO_nitrate")
 env <- sdmpredictors::load_layers(layercodes, equalarea = FALSE)
 
@@ -22,7 +24,10 @@ raster::plot(rc)
 ```
 
 ```{r}
-#Setting seed for reproducibility
+
+```
+
+```{#Setting seed for reproducibility}
 set.seed(42)
 
 #Setting number of background points required
@@ -42,7 +47,57 @@ background_df <- as.data.frame(background)
 
 # Save the background points to a CSV file
 write.csv(background_df, file = "background_points.csv", row.names = FALSE)
-getwd()
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+```{r}
+
+```
+## getting background points only using "stars" package
+```{r}
+library(stars)
+library(sf)
+
+# Load and convert environmental data
+layercodes <- c("BO_nitrate")
+env <- sdmpredictors::load_layers(layercodes, equalarea = FALSE)
+env_stars <- st_as_stars(env)
+
+# Check the CRS of the stars object
+st_crs(env_stars)
+# Assuming the correct CRS is EPSG:4326 (WGS 84)
+st_crs(env_stars) <- 4326
+# Define the bounding box with correct CRS
+bbox_coords <- c(xmin = -71, xmax = -64, ymin = 42, ymax = 45)
+bbox_sf <- st_as_sfc(st_bbox(bbox_coords), crs = st_crs(env_stars))
+# Crop the stars object
+cropped_env_stars <- st_crop(env_stars, bbox_sf)
+library(mapview)
+
+# Set seed for reproducibility
+set.seed(42)
+
+# Number of background points
+nsamp <- 1000
+
+# Create a random sample of points within the bounding box
+random_points <- st_sample(bbox_sf, size = nsamp)
+
+# Convert to data frame
+random_points_df <- as.data.frame(st_coordinates(random_points))
+
+# Convert to sf object
+background_sf <- st_as_sf(random_points_df, coords = c("X", "Y"), crs = st_crs(env_stars))
+
+# Visualize the background points
+mapview(background_sf, col.regions = "gray")
+# Define the file path where you want to save the CSV
+file_path <- "background_points.csv"
+
+# Convert the sf object to a data frame
+background_df <- as.data.frame(background)
+
+# Save the background points to a CSV file
+write.csv(background_df, file = "background_points.csv", row.names = FALSE)
+getwd()
+
+```
