@@ -57,7 +57,7 @@ get_enviro_data <- function(envvars) {
   return(rc)
 }
 
-ph <- get_enviro_data("BO_ph")
+#ph <- get_enviro_data("BO_ph")
 
 extractEnvData <- function(rasterStack, points) {
   env.stars <- terra::split(rasterStack)
@@ -71,23 +71,21 @@ extractEnvData <- function(rasterStack, points) {
 
 
 
-getNegativePoints <- function(croppedRaster) {
-  bbox_sf <- st_as_sfc(st_bbox(c(xmin = vars$lonmin, xmax = vars$lonmax, ymin = vars$latmin, ymax = vars$latmax), crs = st_crs(env)))
+getNegativePoints <- function(croppedRaster, nsamp = 1000) {
+  bbox_sf <- st_as_sfc(st_bbox(c(xmin = vars$lonmin, xmax = vars$lonmax, ymin = vars$latmin, ymax = vars$latmax), crs = st_crs(croppedRaster)))
   set.seed(42)  # For reproducibility
   random_points <- st_sample(bbox_sf, size = nsamp)
   
   # Convert points to a data frame and then to an sf object
-  random_points_sf <- st_as_sf(as.data.frame(st_coordinates(random_points)), coords = c("X", "Y"), crs = st_crs(env_stars))
+  random_points_sf <- st_as_sf(as.data.frame(st_coordinates(random_points)), coords = c("X", "Y"), crs = st_crs(croppedRaster))
   
   # Crop the points to the extent of the environmental layer
-  cropped_points <- st_intersection(random_points_sf, st_as_sf(ph, as_points = FALSE, merge = TRUE))
+  cropped_points <- st_intersection(random_points_sf, st_as_sf(croppedRaster, as_points = FALSE, merge = TRUE))
   return(cropped_points)
 }
 
 
 ```
-
-
 
 ## Call functions to prep data
 
@@ -123,7 +121,6 @@ futureEnv <- terra::split(envRasterStackFuture) %>%
 na.omit(futureEnv)
 #More data processing???
 ```
-
 
 ## Predict with model
 
