@@ -69,50 +69,8 @@ extractEnvData <- function(rasterStack, points) {
   
 }
 
-get_background_points <- function(croppedRaster) {
-  
-    print("task: get background points using stars")
-}
 
-```
 
-```{r}
-gget_points <- function(bbox, nsamp = 1000, save_csv = FALSE, file_path = "background_points.csv") {
-  # Load the specified environmental layers
-  env <- ph
-  
-  # Convert to stars object
-  env_stars <- st_as_stars(env)
-  
-  # Create a bounding box with CRS
-  extent <- st_bbox(c(xmin = bbox$lonmin, xmax = bbox$lonmax, ymin = bbox$latmin, ymax = bbox$latmax), crs = st_crs(env_stars))
-  bbox_sf <- st_as_sfc(extent)
-  
-  # Crop the environmental data to the bounding box
-  cropped_env <- st_crop(env_stars, bbox_sf)
-  
-  # Generate random background points within the bounding box
-  set.seed(42)  # For reproducibility
-  random_points <- st_sample(bbox_sf, size = nsamp)
-  
-  # Convert points to a data frame and then to an sf object
-  random_points_sf <- st_as_sf(as.data.frame(st_coordinates(random_points)), coords = c("X", "Y"), crs = st_crs(env_stars))
-  
-  # Crop the points to the extent of the environmental layer
-  cropped_points <- st_intersection(random_points_sf, st_as_sf(cropped_env, as_points = FALSE, merge = TRUE))
-  
-  # Optionally save cropped points to CSV
-  if (save_csv) {
-    write.csv(st_coordinates(cropped_points), file = file_path, row.names = FALSE)
-  }
-  
-  # Return the cropped environmental data and cropped background points
-  return(list(cropped_env = cropped_env, background_points = cropped_points))
-}
-
-get_points()
-```
-```{r}
 getNegativePoints <- function(croppedRaster) {
   bbox_sf <- st_as_sfc(st_bbox(c(xmin = vars$lonmin, xmax = vars$lonmax, ymin = vars$latmin, ymax = vars$latmax), crs = st_crs(env)))
   set.seed(42)  # For reproducibility
@@ -125,33 +83,11 @@ getNegativePoints <- function(croppedRaster) {
   cropped_points <- st_intersection(random_points_sf, st_as_sf(ph, as_points = FALSE, merge = TRUE))
   return(cropped_points)
 }
-getNegativePoints(get_enviro_data("BO_ph"))
+
 
 ```
 
-```{r}
-get_enviro_data <- function(envvars) {
-  layercodes <- envvars
-#envvars <- "BO_ph"
-  env <- sdmpredictors::load_layers(envvars, equalarea = FALSE, rasterstack = TRUE)
-  #Crop
-  env <- st_as_stars(env)
-  extent <- st_bbox(c(xmin = vars$lonmin, xmax = vars$lonmax, ymin = vars$latmin, ymax = vars$latmax), crs = st_crs(env))
-  rc <- st_crop(x = env, y = extent)
-  return(rc)
-}
 
-  extent <- st_bbox(c(xmin = bbox$lonmin, xmax = bbox$lonmax, ymin = bbox$latmin, ymax = bbox$latmax), crs = st_crs(env_stars))
-
-  
-ph <- get_enviro_data("BO_ph")
-get_negative_points(ph)
-```
-
-
-```{r}
-plot(envRasterStack)
-```
 
 ## Call functions to prep data
 
@@ -159,14 +95,15 @@ plot(envRasterStack)
 layers <- c(vars$envVars)
 envRasterStack <- get_enviro_data(layers)
 speciesPoints <- get_species_data(vars$species[1])
-absPts <- getNegativePoints(envRasterStack) 
+absPoints <- getNegativePoints(envRasterStack) 
 
 pres <- extractEnvData(envRasterStack, speciesPoints) 
 
-abs <- extractEnvData(envRasterStack, absPts) 
+abs <- extractEnvData(envRasterStack, absPoints) 
 
 allData <- rbind(pres, abs)
-allData
+
+head(allData)
 
 ```
 
