@@ -18,7 +18,7 @@ library(dismo)
 library(terra)
 library(maxnet)
 
-vars <- read_yaml("config.yaml")
+vars <- read_yaml("config2.yaml")
 
 
 #Get species data from Obis.
@@ -50,6 +50,7 @@ get_species_data <- function(spec) {
 #Input: variables, output:raster stack
 get_enviro_data <- function(envvars) {
   #layercodes <- var
+  #dir = "ohw24_proj_sdm_us"
   env <- sdmpredictors::load_layers(envvars, equalarea = FALSE, rasterstack = TRUE)
   #Crop
   env <- st_as_stars(env)
@@ -130,8 +131,38 @@ unique(allData$pa)
 
 
 ```
+```{r}
+future_layers
+```
 
-## Predicting 
+## Predicting
+```{r}
+future_layers <- sdmpredictors::list_layers_future(marine = TRUE) %>% 
+  filter(current_layer_code %in% c(vars$envVars)) %>% 
+  filter(year == "2050") %>% 
+  filter(scenario == "RCP26") %>% 
+  filter(model == "AOGCM")
+future_layers_list <- future_layers$layer_code
+
+ envRasterStackFuture <- get_enviro_data(f[3])
+ futureEnv <- terra::split(envRasterStackFuture) %>% 
+   dplyr::as_tibble()
+ na.omit(futureEnv)
+#More data processing???
+```
+```{r}
+obj1 <- get_enviro_data(future_layers_list[1])
+obj2 <- get_enviro_data(future_layers_list[2])
+obj3 <- get_enviro_data(future_layers_list[3])
+obj4 <- get_enviro_data(future_layers_list[4])
+obj5 <- get_enviro_data(future_layers_list[5])
+concat <- c(obj1, obj2, obj3, obj4, obj5)
+plot(concat[2])
+names(concat) <- future_layers$current_layer_code
+```
+
+
+
 
 ```{r}
 # Set the prediction parameters
@@ -139,20 +170,17 @@ clamp <- TRUE
 type <- "cloglog"
 
 # Predict species distribution within the cropped area
-predicted <- predict(sdm.model, environmental_df, clamp = clamp, type = type)
+predicted <- predict(sdm.model, concat, clamp = clamp, type = type)
 
-predicted
+plot(predicted)
 ```
 
 ## Call functions for future data
 
 ```{r}
-envRasterStackFuture <- get_enviro_data() 
-futureEnv <- terra::split(envRasterStackFuture) %>% 
-  dplyr::as_tibble()
-na.omit(futureEnv)
-#More data processing???
+sdmpredictors::list_layers_future(marine = TRUE)
 ```
+
 
 ## Predict with model
 
