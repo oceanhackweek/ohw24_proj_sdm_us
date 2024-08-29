@@ -8,3 +8,11 @@ get_enviro_data <- function(var) {
   rc <- st_crop(x = env, y = extent)
   return(rc)
 }
+
+extractEnvData <- function(rasterStack, points) {
+  env.stars <- terra::split(rasterStack)
+  spec.env <- stars::st_extract(env.stars, sf::st_coordinates(points)) %>%
+    dplyr::as_tibble()
+  na.omit(spec.env)
+  
+}

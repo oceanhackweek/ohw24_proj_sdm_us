@@ -1,0 +1,16 @@
+species:
+- Doryteuthis pealeii
+- Cetorhinus maximus
+latmin: 42.0
+latmax: 45.0
+lonmin: -71.0
+lonmax: -64.0
+version: two
+start_year: 2000.0
+end_year: 2020.0
+envVars:
+- BO21_tempmean_bdmax
+- BO21_tempmean_ss
+- BO22_chlomean_ss
+- BO22_salinitymean_bdmax
+- BO22_salinitymean_ss
