@@ -40,9 +40,10 @@ future
 
 ```{r}
 dir <- "ohw-tutorials/data"
+
 # download pH and Salinity to the temporary directory
-load_layers(layers[layers$name %in% c("Bathymetry (mean)") & 
-                     layers$dataset_code == "Bio-ORACLE"], datadir = dir)
+load_layers <- (layers[layers$name %in% c("pH", "Bathymetry (mean)", "Chlorophyll A (mean)", "Dissolved oxygen concentration [02]", "Nitrate", "Salinity", "Sea surface temperature (mean)") & 
+                     layers$dataset_code == "Bio-ORACLE"] & datadir = dir)
 
 # set a default datadir, preferably something different from tempdir()
 options(sdmpredictors_datadir= dir)
@@ -50,7 +51,8 @@ options(sdmpredictors_datadir= dir)
 # (down)load specific layers 
 specific <- load_layers(c("BO_bathymean"))
 
-vars <- c("BO_ph","BO_bathymean","BO_chlomean","BO_dissox","BO_nitrate","BO_salinity","BO_sstmean")
+vars <- layers$layers_code %in% c("BO_ph","BO_bathymean","BO_chlomean","BO_dissox","BO_nitrate","BO_salinity","BO_sstmean")
+vars <- layers$name
 
 # equal area data (Behrmann equal area projection) 
 equalarea <- load_layers(("BO_bathymean"), equalarea = FALSE)
@@ -61,7 +63,18 @@ e <- raster::extent(-71,-64,42,45)
 rc <- raster::crop(equalarea, e)
 raster::plot(rc)
 ```
+
 ```{r}
+layers %>% 
+  filter(layer_code %in% c("BO_ph","BO_bathymean","BO_chlomean","BO_dissox","BO_nitrate","BO_salinity","BO_sstmean"))
+```
+```{r}
+layers %>% 
+  filter(dataset_code == "Bio-ORACLE")
+```
+```{r}
+future_layers <- list_layers_future()
+unique(future_layers$model)
 ```
 
 
