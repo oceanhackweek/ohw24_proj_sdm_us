@@ -7,6 +7,7 @@ editor: visual
 Setup - change to different file
 
 ```{r}
+
 library(tidyverse)
 library(yaml)
 library(sdmpredictors)
@@ -61,9 +62,7 @@ get_enviro_data <- function(envvars) {
 
 extractEnvData <- function(rasterStack, points) {
   env.stars <- terra::split(rasterStack)
-  spec.env <- stars::st_extract(env.stars, sf::st_coordinates(points)) %>%
-    dplyr::as_tibble() %>% 
-  mutate(pa = 1)
+  spec.env <- stars::st_extract(env.stars, sf::st_coordinates(points))
   na.omit(spec.env)
   return(spec.env)
   
@@ -95,9 +94,9 @@ envRasterStack <- get_enviro_data(layers)
 speciesPoints <- get_species_data(vars$species[1])
 absPoints <- getNegativePoints(envRasterStack) 
 
-pres <- extractEnvData(envRasterStack, speciesPoints) 
+pres <- extractEnvData(envRasterStack, speciesPoints) |> mutate(pa=1)
 
-abs <- extractEnvData(envRasterStack, absPoints) 
+abs <- extractEnvData(envRasterStack, absPoints) |> mutate(pa=0)
 
 allData <- rbind(pres, abs)
 
@@ -107,9 +106,42 @@ head(allData)
 
 ## Make model
 
+sdm.model \<- maxnet::maxnet(presence_absence_df, environmental_df)
+
+responses \<- plot(sdm.model, type = "cloglog")
+
 ```{r}
+presence_absence_df <- allData %>%
+  dplyr::select(pa)
+
+environmental_df <- allData %>%
+  dplyr::select(-c(pa))
+
+# Ensure that 'Presence' column is extracted as a numeric vector
+presence_absence_vector <- presence_absence_df$pa
+
+# Fit the MaxEnt model
+sdm.model <- maxnet::maxnet(p = presence_absence_vector, data = environmental_df)
+
+# Plot the response curves
+responses <- plot(sdm.model, type = "cloglog")
+
+unique(allData$pa)
 
 
+```
+
+## Predicting 
+
+```{r}
+# Set the prediction parameters
+clamp <- TRUE      
+type <- "cloglog"
+
+# Predict species distribution within the cropped area
+predicted <- predict(sdm.model, environmental_df, clamp = clamp, type = type)
+
+predicted
 ```
 
 ## Call functions for future data
