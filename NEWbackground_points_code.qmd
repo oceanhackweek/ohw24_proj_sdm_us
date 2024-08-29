@@ -1,0 +1,80 @@
+---
+title: "background_points"
+format: html
+editor: visual
+---
+
+## Code for creating background points
+
+## Hallie's function
+
+```{r}
+get_enviro_data <- function(var) {
+  #This is an example! Not the final!
+  layercodes <- var
+  env <- sdmpredictors::load_layers(layercodes, equalarea = FALSE)
+  #Crop
+  env <- st_as_stars(env)
+  extent <- st_bbox(c(xmin = vars$lonmin, xmax = vars$lonmax, ymin = vars$latmin, ymax = vars$latmax), crs = st_crs(env))
+  rc <- st_crop(x = env, y = extent)
+  return(rc)
+}
+```
+
+## Use Hallie's function to get background points
+
+```{r}
+library(stars)
+library(sf)
+library(sdmpredictors)
+library(dplyr)
+library(mapview)
+
+bbox <- list(lonmin = -71, lonmax = -64, latmin = 42, latmax = 45)
+var <- c("BO_nitrate")
+
+get_enviro_data <- function(var, bbox, nsamp = 1000, save_csv = FALSE, file_path = "background_points.csv") {
+  # Load the specified environmental layers
+  env <- sdmpredictors::load_layers(var, equalarea = FALSE)
+  
+  # Convert to stars object
+  env_stars <- st_as_stars(env)
+  
+  # Create a bounding box with CRS
+  extent <- st_bbox(c(xmin = bbox$lonmin, xmax = bbox$lonmax, ymin = bbox$latmin, ymax = bbox$latmax), crs = st_crs(env_stars))
+  bbox_sf <- st_as_sfc(extent)
+  
+  # Crop the environmental data to the bounding box
+  cropped_env <- st_crop(env_stars, bbox_sf)
+  
+  # Generate random background points within the bounding box
+  set.seed(42)  # For reproducibility
+  random_points <- st_sample(bbox_sf, size = nsamp)
+  
+  # Convert points to a data frame and then to an sf object
+  random_points_sf <- st_as_sf(as.data.frame(st_coordinates(random_points)), coords = c("X", "Y"), crs = st_crs(env_stars))
+  
+  # Crop the points to the extent of the environmental layer
+  cropped_points <- st_intersection(random_points_sf, st_as_sf(cropped_env, as_points = FALSE, merge = TRUE))
+  
+  # Optionally save cropped points to CSV
+  if (save_csv) {
+    write.csv(st_coordinates(cropped_points), file = file_path, row.names = FALSE)
+  }
+  
+  # Return the cropped environmental data and cropped background points
+  return(list(cropped_env = cropped_env, background_points = cropped_points))
+}
+
+result <- get_enviro_data(var = var, bbox = bbox, nsamp = 1000, save_csv = TRUE, file_path = "cropped_background_points.csv")
+
+# Access the cropped environmental data
+cropped_env <- result$cropped_env
+
+# Access the cropped background points
+background_points_sf <- result$background_points
+
+# Visualize the cropped background points
+mapview(background_points_sf, col.regions = "gray")
+
+```
