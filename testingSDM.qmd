@@ -3,7 +3,9 @@ title: "testingSDM"
 format: html
 editor: visual
 ---
+
 Setup - change to different file
+
 ```{r}
 library(tidyverse)
 library(yaml)
@@ -71,8 +73,12 @@ get_background_points <- function(croppedRaster) {
 
 ```
 
+```{r}
+plot(envRasterStack)
+```
 
 ## Call functions to prep data
+
 ```{r}
 layers <- c(vars$envVars)
 envRasterStack <- get_enviro_data(layers)
@@ -82,19 +88,28 @@ pres <- extractEnvData(envRasterStack, speciesPoints)
 #abs <- extractEnvData(envRasterStack, absPoints)
 
 ```
+
 ## Make model
+
 ```{r}
 
 ```
 
 ## Call functions for future data
-```{r}
 
+```{r}
+envRasterStackFuture <- get_enviro_data() 
+futureEnv <- terra::split(envRasterStackFuture) %>% 
+  dplyr::as_tibble()
+na.omit(futureEnv)
+#More data processing???
 ```
 
 ## Predict with model
+
 ```{r}
-
+for (scenario in scanrios) {
+predictMaxNet(model, envRasterStackFuture, clamp = TRUE, type = "cloglog")  ##Plot
+  
+}
 ```
-
-
