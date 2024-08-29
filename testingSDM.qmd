@@ -13,7 +13,7 @@ library(robis)
 library(stars)
 library(dismo)
 library(terra)
-
+library(maxnet)
 
 vars <- read_yaml("config.yaml")
 
@@ -72,7 +72,7 @@ get_background_points <- function(croppedRaster) {
 ```
 
 
-## Call functions
+## Call functions to prep data
 ```{r}
 layers <- c(vars$envVars)
 envRasterStack <- get_enviro_data(layers)
@@ -82,13 +82,19 @@ pres <- extractEnvData(envRasterStack, speciesPoints)
 #abs <- extractEnvData(envRasterStack, absPoints)
 
 ```
-
+## Make model
 ```{r}
-  env.stars <- terra::split(envRasterStack)
-  spec.env <- stars::st_extract(env.stars, sf::st_coordinates(speciesPoints)) %>%
-    dplyr::as_tibble()
-  na.omit(spec.env)
-  spec.env
+
+```
+
+## Call functions for future data
+```{r}
+
+```
+
+## Predict with model
+```{r}
+
 ```
 
 
