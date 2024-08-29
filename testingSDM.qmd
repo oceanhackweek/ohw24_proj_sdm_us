@@ -15,7 +15,7 @@ library(dismo)
 library(terra)
 
 
-vars <- read_yaml("ohw24_proj_sdm_us/config.yaml")
+vars <- read_yaml("config.yaml")
 
 
 #Get species data from Obis.
@@ -35,14 +35,19 @@ get_species_data <- function(spec) {
       filter(decimalLatitude >= vars$latmin & decimalLatitude <= vars$latmax &
                decimalLongitude >= vars$lonmin & decimalLongitude <= vars$lonmax) %>% 
       dplyr::select(datasetName, decimalLatitude, decimalLongitude, Year, Month, individualCount, vernacularName)
-    return(bounded_data)
+    
+    obs_sf <- bounded_data %>% 
+    sf::st_as_sf(
+      coords = c("decimalLongitude", "decimalLatitude"),
+      crs = st_crs(4326))
+    return(obs_sf)
   
 }
 
 #Input: variables, output:raster stack
-get_enviro_data <- function(vars) {
-  layercodes <- var
-  env <- sdmpredictors::load_layers(layercodes, equalarea = FALSE, rasterstack = TRUE)
+get_enviro_data <- function(envvars) {
+  #layercodes <- var
+  env <- sdmpredictors::load_layers(envvars, equalarea = FALSE, rasterstack = TRUE)
   #Crop
   env <- st_as_stars(env)
   extent <- st_bbox(c(xmin = vars$lonmin, xmax = vars$lonmax, ymin = vars$latmin, ymax = vars$latmax), crs = st_crs(env))
@@ -65,4 +70,25 @@ get_background_points <- function(croppedRaster) {
 }
 
 ```
+
+
+## Call functions
+```{r}
+layers <- c(vars$envVars)
+envRasterStack <- get_enviro_data(layers)
+speciesPoints <- get_species_data(vars$species[1])
+#absPoints <- "hold"
+pres <- extractEnvData(envRasterStack, speciesPoints)
+#abs <- extractEnvData(envRasterStack, absPoints)
+
+```
+
+```{r}
+  env.stars <- terra::split(envRasterStack)
+  spec.env <- stars::st_extract(env.stars, sf::st_coordinates(speciesPoints)) %>%
+    dplyr::as_tibble()
+  na.omit(spec.env)
+  spec.env
+```
+
 
