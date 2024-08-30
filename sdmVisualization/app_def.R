@@ -95,27 +95,26 @@ ui <- fluidPage(
     sidebarLayout(
         sidebarPanel(
             selectInput(inputId = "species", label = "Species:", choices = c("Doryteuthis_pealeii", 
-                                                                             "Cetorhinus_maximus", 
-                                                                             "Morone_saxatilis", 
-                                                                             "Homerus_americanus", 
-                                                                             "Salmo_salar"),
+                                                                             "Cetorhinus_maximus"),
                                                             selected = "Cetorhinus_maximus"), #sets default selection
             
             selectInput(inputId = "year", label = "Year:", choices = c("current", 
                                                                              "2050", 
                                                                              "2100"),
-                                                                    selected = "2050"), #sets default selection
-            selectInput(inputId = "scenario", label = "RCP Scenario:", choices = c("current", 
-                                                                                   "RCP26", 
-                                                                                   "RCP45", 
-                                                                                   "RCP60", 
-                                                                                   "RCP85"),
-                                                                   selected = "RCP26") #sets default selection
+                                                                    selected = "current"), #sets default selection
+            
+            conditionalPanel(
+              condition = "input.year != 'current'",
+              selectInput(inputId = "scenario", label = "RCP Scenario:", choices = c("RCP26", 
+                                                                                     "RCP45", 
+                                                                                     "RCP60", 
+                                                                                     "RCP85"),selected = "RCP26"))
         ),
 
         # Show a plot of the generated distribution
         mainPanel(
-          leafletOutput("distPlot")
+          leafletOutput("distPlot"),
+          textOutput("speciesFact")
         )
     )
 )
@@ -199,6 +198,16 @@ server <- function(input, output) {
       }
       
     })
+    
+    output$speciesFact <- renderText(
+      if (input$species == "Doryteuthis_pealeii") {
+        "Basking shark \n Fun fact: Basking sharks are filter feeders and filter 2000 tons of seawater every hour for plankton."
+        
+      } else if (input$species == "Cetorhinus_maximus") {
+        "Longfin squid \n Fun fact: Longfin squids sometimes eat animals bigger than themselves, including others of their own species."
+      }
+      
+    )
 }
 
 # Run the application 
