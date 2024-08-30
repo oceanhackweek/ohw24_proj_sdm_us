@@ -48,10 +48,11 @@ Lastly, we created an R Shiny app to make our model accessible and interactive. 
 
 | Name                | Role                |
 |---------------------|---------------------|
-| Ben                 | Project Mentor      |
-| Hallie              | Participant         |
-| Jessie              | Participant         |
-| Mugdha              | Participant         |
+| Ben Tupper          | Project Mentor      |
+| Camille Ross        | Project Mentor
+| Hallie Arno         | Participant         |
+| Jessie Maguire      | Participant         |
+| Mugdha Chiplunkar   | Participant         |
 
 ## References
 
