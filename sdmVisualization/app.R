@@ -110,12 +110,19 @@ ui <- fluidPage(
                                                                              "Cetorhinus maximus", 
                                                                              "Morone saxatilis", 
                                                                              "Homerus americanus", 
-                                                                             "Salmo salar")),
+                                                                             "Salmo salar"),
+                                                            selected = "Cetorhinus maximus"), #sets default selection
             
             selectInput(inputId = "year", label = "Year:", choices = c("current", 
                                                                              "2050", 
-                                                                             "2100")),
-            selectInput(inputId = "scenario", label = "RCP Scenario:", choices = c("current", "RCP26", "RCP45", "RCP60", "RCP85"))
+                                                                             "2100"),
+                                                                    selected = "current"), #sets default selection
+            selectInput(inputId = "scenario", label = "RCP Scenario:", choices = c("current", 
+                                                                                   "RCP26", 
+                                                                                   "RCP45", 
+                                                                                   "RCP60", 
+                                                                                   "RCP85"),
+                                                                   selected = "current") #sets default selection
         ),
 
         # Show a plot of the generated distribution
