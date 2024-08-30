@@ -56,14 +56,15 @@ vars <- c("BO_ph","BO_bathymean","BO_chlomean","BO_dissox","BO_nitrate","BO_sali
 equalarea <- load_layers(("BO_bathymean"), equalarea = FALSE)
 raster::plot(equalarea)
 ```
+
 ```{r}
 e <- raster::extent(-71,-64,42,45)
 rc <- raster::crop(equalarea, e)
 raster::plot(rc)
 ```
+
 ```{r}
 ```
-
 
 ```{r}
 list_layers(marine = TRUE)
