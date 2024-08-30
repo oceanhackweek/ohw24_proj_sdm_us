@@ -87,6 +87,14 @@ getNegativePoints <- function(croppedRaster, nsamp = 1000) {
 
 ```
 
+```{r}
+l <- list_layers_future(marine = TRUE) %>% 
+  filter(model == "AOGCM")
+l
+
+unique(l$scenario)
+```
+
 ## Call functions to prep data
 
 ```{r}
@@ -167,12 +175,30 @@ names(concat) <- future_layers$current_layer_code
 ```{r}
 # Set the prediction parameters
 clamp <- TRUE      
-type <- "cloglog"
+type <- "logistic"
 
 # Predict species distribution within the cropped area
 predicted <- predict(sdm.model, concat, clamp = clamp, type = type)
 
 plot(predicted)
+```
+```{r}
+library(leaflet)
+m1 <- leaflet() %>% 
+  addTiles() %>% 
+  leafem::addStarsImage(predicted)
+
+m1
+```
+
+```{r}
+assf <- st_as_sfc(predicted, as_points = FALSE)
+ggplot() +
+    geom_sf(data = world1) +
+  geom_sf(data = assf)
+ # geom_stars(data = predicted) +
+#  coord_equal() +
+#  theme_bw()
 ```
 
 ## Call functions for future data
