@@ -53,6 +53,18 @@ get_enviro_data <- function(envvars) {
   return(rc)
 }
 
+
+get_enviro_data_pres <- function(envvars) {
+  layercodes <- envvars
+  env <- sdmpredictors::load_layers(envvars, equalarea = FALSE, rasterstack = TRUE)
+  #Crop
+  env <- st_as_stars(env)
+  extent <- st_bbox(c(xmin = vars$lonmin, xmax = vars$lonmax, ymin = vars$latmin, ymax = vars$latmax), crs = st_crs(env))
+  rc <- st_crop(x = env, y = extent)
+  write_stars(rc, paste0("rasterImgs/", envvars, ".Pres.cropped.tif"))
+  return(rc)
+}
+
 extractEnvData <- function(rasterStack, points) {
   env.stars <- terra::split(rasterStack)
   spec.env <- stars::st_extract(env.stars, sf::st_coordinates(points))
@@ -78,14 +90,14 @@ getNegativePoints <- function(croppedRaster, nsamp = 1000) {
 
 #Get variables from config2.yaml. This contains layer names
 
-for (spec in vars$species) {
+for (spec in vars$species[3:5]) {
   currentLayers <- vars$envVars
   envRasterStack <- get_enviro_data(currentLayers)
   
   speciesPoints <- get_species_data(spec)
   
   write.csv(paste0("SpeciesData/", spec, ".csv"))
-  #absPoints <- getNegativePoints(envRasterStack) 
+  absPoints <- getNegativePoints(envRasterStack) 
   
   pres <- extractEnvData(envRasterStack, speciesPoints) |> mutate(pa=1)
   abs <- extractEnvData(envRasterStack, absPoints) |> mutate(pa=0)
@@ -94,7 +106,8 @@ for (spec in vars$species) {
   write.csv(pres, paste0("SpeciesData/", spec, "_currentPres.csv"))
   write.csv(abs, paste0("SpeciesData/", spec, "_currentAbs.csv"))
   
-  allData <- rbind(pres, abs)
+  allData <- rbind(pres, abs) 
+  allData <-  na.omit(allData)
   write.csv(allData, paste0("SpeciesData/", spec, "_currentPresAbs.csv"))
 }
 
@@ -136,11 +149,13 @@ for (scen in vars$scenarios) {
 
 
 #allLayers <- c(future_layers_list, currentLayers)
+currentLayers <- vars$envVars
 
 #Call data from sdmpredictors package
-envRasterStack <- get_enviro_data(currentLayers)
+for (lay in currentLayers) {
+envRasterStack <- get_enviro_data_pres(lay)
 
-
+}
 #absPoints <- getNegativePoints(envRasterStack)
 #abs <- extractEnvData(envRasterStack, absPoints) |> mutate(pa=0)
 
