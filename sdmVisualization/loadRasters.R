@@ -44,11 +44,12 @@ get_species_data <- function(spec) {
 get_enviro_data <- function(envvars) {
   #layercodes <- var
   #dir = "ohw24_proj_sdm_us"
-  env <- sdmpredictors::load_layers(envvars, equalarea = FALSE, rasterstack = TRUE, datadir = "rasterImgs/")
+  env <- sdmpredictors::load_layers(envvars, equalarea = FALSE, rasterstack = TRUE)
   #Crop
   env <- st_as_stars(env)
   extent <- st_bbox(c(xmin = vars$lonmin, xmax = vars$lonmax, ymin = vars$latmin, ymax = vars$latmax), crs = st_crs(env))
   rc <- st_crop(x = env, y = extent)
+  write_stars(rc, paste0("rasterImgs/", envvars, "cropped.tif"))
   return(rc)
 }
 
@@ -101,7 +102,7 @@ for (spec in vars$species) {
 ##Future
 
 
-for (scen in vars$scenarios) { #add!!!
+for (scen in vars$scenarios) { 
   for (yr in vars$years) {
   future_layers <- sdmpredictors::list_layers_future(marine = TRUE) %>% 
     filter(current_layer_code %in% c(vars$envVars)) %>% 
@@ -109,17 +110,26 @@ for (scen in vars$scenarios) { #add!!!
       filter(scenario == scen) %>% 
     filter(model == "AOGCM")
   future_layers_list <- future_layers$layer_code
-  obj1 <- get_enviro_data(future_layers_list[1])
-  obj2 <- get_enviro_data(future_layers_list[2])
-  obj3 <- get_enviro_data(future_layers_list[3])
-  obj4 <- get_enviro_data(future_layers_list[4])
-  obj5 <- get_enviro_data(future_layers_list[5])
-  concat <- c(obj1, obj2, obj3, obj4, obj5)
- # write_stars(concatenated, )
-  names(concat) <- future_layers$current_layer_code
-  absPoints <- getNegativePoints(concat)
- # abs <- extractEnvData(concat, absPoints)# |> mutate(pa=0)
-  write.csv(abs, paste0("SpeciesData/", scen, "_", yr, ".abs.csv"))
+  for (lay in future_layers_list) {
+    env <- sdmpredictors::load_layers(envvars, equalarea = FALSE, rasterstack = TRUE)
+    #Crop
+    env <- st_as_stars(env)
+    extent <- st_bbox(c(xmin = vars$lonmin, xmax = vars$lonmax, ymin = vars$latmin, ymax = vars$latmax), crs = st_crs(env))
+    rc <- st_crop(x = env, y = extent)
+    write_stars(rc, paste0("rasterImgs/", envvars, "cropped.tif"))
+  }
+  # obj1 <- get_enviro_data(future_layers_list[1])
+  # obj2 <- get_enviro_data(future_layers_list[2])
+  # obj3 <- get_enviro_data(future_layers_list[3])
+  # obj4 <- get_enviro_data(future_layers_list[4])
+  # obj5 <- get_enviro_data(future_layers_list[5])
+  # concat <- c(obj1, obj2, obj3, obj4, obj5)
+  # names(concat) <- future_layers$current_layer_code
+ # write_stars(concat, paste0("rasterImgs/", yr, "_", scen, ".tif"))
+  
+ # absPoints <- getNegativePoints(concat)
+#  abs <- extractEnvData(concat, absPoints)# |> mutate(pa=0)
+ # write.csv(abs, paste0("SpeciesData/", scen, "_", yr, ".abs.csv"))
   }
   
 }

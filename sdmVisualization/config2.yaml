@@ -8,6 +8,14 @@ lonmax: -64.0
 version: two
 start_year: 2000.0
 end_year: 2020.0
+years:
+- '2050'
+- '2100'
+scenarios:
+- RCP26
+- RCP45
+- RCP60
+- RCP85
 envVars:
 - BO21_tempmean_bdmax
 - BO21_tempmean_ss
