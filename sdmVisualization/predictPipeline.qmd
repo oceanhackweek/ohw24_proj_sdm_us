@@ -1,0 +1,61 @@
+---
+title: "testRasterRatrieval"
+format: html
+editor: visual
+---
+
+the part in the shiny app: 
+```{r}
+inputSpecies <- "Cetorhinus_maximus" #need to remember to change script to work w/o spaces!!
+
+allData <- read.csv(paste0("SpeciesData/", inputSpecies, "_currentPresAbs.csv"))
+                    
+presence_absence_df <- allData %>%
+  dplyr::select(pa)
+
+environmental_df <- allData %>%
+  dplyr::select(-c(pa))
+
+# Ensure that 'Presence' column is extracted as a numeric vector
+presence_absence_vector <- presence_absence_df$pa
+
+# Fit the MaxEnt model
+sdm.model <- maxnet::maxnet(p = presence_absence_vector, data = environmental_df)
+
+files <- data.frame(filename = list.files("rasterImgs/")) %>% 
+  mutate(type = str_sub(filename,-3,-1)) %>% 
+  filter(type == "tif") %>% 
+  mutate(cropped = str_sub(filename, -11, -5)) %>% 
+  filter(cropped == "cropped") %>% 
+  mutate(rcp = substr(filename, start = 6, stop = 10)) %>% 
+  mutate(year = substr(filename, start = 12, stop = 15))
+
+
+inputYear = "2100"
+inputRcp = "RCP26"
+
+filteredFiles <- files %>% 
+  filter(year == inputYear) %>% 
+  filter(rcp == inputRcp)
+names <- filteredFiles$filename
+
+
+BO22_salinitymean_bdmax <- read_stars(paste0("rasterImgs/",names[1]))
+BO21_tempmean_bdmax <- read_stars(paste0("rasterImgs/",names[2]))
+BO22_chlomean_ss <- read_stars(paste0("rasterImgs/",names[3]))
+BO22_salinitymean_ss <- read_stars(paste0("rasterImgs/",names[4]))
+BO21_tempmean_ss <- read_stars(paste0("rasterImgs/",names[5]))
+
+concat2 <- c(BO21_tempmean_bdmax, BO21_tempmean_ss, BO22_chlomean_ss, BO22_salinitymean_bdmax, BO22_salinitymean_ss)
+names(concat2) <- c("BO21_tempmean_bdmax", "BO21_tempmean_ss", "BO22_chlomean_ss", "BO22_salinitymean_bdmax", "BO22_salinitymean_ss")
+
+clamp <- TRUE      
+type <- "logistic"
+
+# Predict species distribution within the cropped area
+predicted <- predict(sdm.model, concat2) #, clamp = clamp, type = type) #, clamp = clamp, type = type)
+
+plot(predicted)
+
+```
+
