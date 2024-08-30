@@ -187,3 +187,67 @@ sdm.model <- maxnet::maxnet(p = presence_absence_vector, data = environmental_df
 #Now species points will be generated programatically -- jump to server
 
 ###########################################################################################################################
+
+#BACKUP FUNCTIONS - IGNORE
+vars <- read_yaml("config2.yaml")
+
+
+#Get species data from Obis.
+#Input: latin name of a marine species
+#Output: data frame with occurence points.
+get_species_data <- function(spec) {
+  
+  species_data <- robis::occurrence(spec)
+  withDates <- species_data %>%
+    separate(eventDate, into = c("Year", "Month"), sep = "-") %>%
+    filter(!is.na(Year)) %>%
+    filter(grepl("^\\d{4}$", as.character(Year)))
+  
+  filtered_data <- subset(withDates, date_year >= vars$start_year & date_year <= vars$end_year)
+  
+  bounded_data <- filtered_data %>%
+    filter(decimalLatitude >= vars$latmin & decimalLatitude <= vars$latmax &
+             decimalLongitude >= vars$lonmin & decimalLongitude <= vars$lonmax) %>% 
+    dplyr::select(datasetName, decimalLatitude, decimalLongitude, Year, Month, individualCount, vernacularName)
+  
+  obs_sf <- bounded_data %>% 
+    sf::st_as_sf(
+      coords = c("decimalLongitude", "decimalLatitude"),
+      crs = st_crs(4326))
+  return(obs_sf)
+  
+}
+
+#Input: variables, output:raster stack
+get_enviro_data <- function(envvars) {
+  #layercodes <- var
+  #dir = "ohw24_proj_sdm_us"
+  env <- sdmpredictors::load_layers(envvars, equalarea = FALSE, rasterstack = TRUE)
+  #Crop
+  env <- st_as_stars(env)
+  extent <- st_bbox(c(xmin = vars$lonmin, xmax = vars$lonmax, ymin = vars$latmin, ymax = vars$latmax), crs = st_crs(env))
+  rc <- st_crop(x = env, y = extent)
+  return(rc)
+}
+
+extractEnvData <- function(rasterStack, points) {
+  env.stars <- terra::split(rasterStack)
+  spec.env <- stars::st_extract(env.stars, sf::st_coordinates(points))
+  na.omit(spec.env)
+  return(spec.env)
+  
+}
+
+getNegativePoints <- function(croppedRaster, nsamp = 1000) {
+  bbox_sf <- st_as_sfc(st_bbox(c(xmin = vars$lonmin, xmax = vars$lonmax, ymin = vars$latmin, ymax = vars$latmax), crs = st_crs(croppedRaster)))
+  set.seed(42)  # For reproducibility
+  random_points <- st_sample(bbox_sf, size = nsamp)
+  
+  # Convert points to a data frame and then to an sf object
+  random_points_sf <- st_as_sf(as.data.frame(st_coordinates(random_points)), coords = c("X", "Y"), crs = st_crs(croppedRaster))
+  
+  # Crop the points to the extent of the environmental layer
+  cropped_points <- st_intersection(random_points_sf, st_as_sf(croppedRaster, as_points = FALSE, merge = TRUE))
+  return(cropped_points)
+}
+

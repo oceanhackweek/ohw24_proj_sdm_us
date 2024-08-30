@@ -6,9 +6,11 @@ editor: visual
 
 the part in the shiny app: 
 ```{r}
+
 inputSpecies <- "Cetorhinus_maximus" #need to remember to change script to work w/o spaces!!
 
-allData <- read.csv(paste0("SpeciesData/", inputSpecies, "_currentPresAbs.csv"))
+allData <- read.csv(paste0("SpeciesData/", inputSpecies, "_currentPresAbs.csv")) %>% 
+ dplyr::select(-c(X))
                     
 presence_absence_df <- allData %>%
   dplyr::select(pa)
@@ -57,5 +59,8 @@ predicted <- predict(sdm.model, concat2) #, clamp = clamp, type = type) #, clamp
 
 plot(predicted)
 
+```
+```{r}
+predicted$pred
 ```
 
