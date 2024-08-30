@@ -14,5 +14,5 @@ This scenario requires that carbon dioxide levels start declining in 2080, and i
 
 This scenario requires that carbon dioxide levels continue to rise through 2100. It is deemed the "worst-case" scenario.
 
-![Predicted CO~2~ (ppm) levels for different climate scenarios](ohw24_proj_sdm_us/scenarios.png)
+![Predicted CO~2~ (ppm) levels for different climate scenarios](scenarios.png)
 Image Credit: By Efbrazil - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=87801257
