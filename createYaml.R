@@ -1,6 +1,11 @@
 
 library(yaml)
-configList <- list(species = list("Doryteuthis pealeii", "Cetorhinus maximus"),
+configList <- list(species = list("Doryteuthis pealeii", 
+                                  "Cetorhinus maximus", 
+                                  "Morone saxatilis", 
+                                  "Homerus americanus", 
+                                  "Salmo salar",
+                                  "Gadus moruha"),
                latmin = 42,
                latmax = 45,
                lonmin = -71,
