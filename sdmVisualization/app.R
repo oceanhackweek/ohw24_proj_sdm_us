@@ -17,83 +17,9 @@ library(stars)
 library(dismo)
 library(terra)
 library(maxnet)
+library(leaflet)
+library(leafem)
 
-vars <- read_yaml("config2.yaml")
-
-
-#Get species data from Obis.
-#Input: latin name of a marine species
-#Output: data frame with occurence points.
-get_species_data <- function(spec) {
-  
-  species_data <- robis::occurrence(spec)
-  withDates <- species_data %>%
-    separate(eventDate, into = c("Year", "Month"), sep = "-") %>%
-    filter(!is.na(Year)) %>%
-    filter(grepl("^\\d{4}$", as.character(Year)))
-  
-  filtered_data <- subset(withDates, date_year >= vars$start_year & date_year <= vars$end_year)
-  
-  bounded_data <- filtered_data %>%
-    filter(decimalLatitude >= vars$latmin & decimalLatitude <= vars$latmax &
-             decimalLongitude >= vars$lonmin & decimalLongitude <= vars$lonmax) %>% 
-    dplyr::select(datasetName, decimalLatitude, decimalLongitude, Year, Month, individualCount, vernacularName)
-  
-  obs_sf <- bounded_data %>% 
-    sf::st_as_sf(
-      coords = c("decimalLongitude", "decimalLatitude"),
-      crs = st_crs(4326))
-  return(obs_sf)
-  
-}
-
-#Input: variables, output:raster stack
-get_enviro_data <- function(envvars) {
-  #layercodes <- var
-  #dir = "ohw24_proj_sdm_us"
-  env <- sdmpredictors::load_layers(envvars, equalarea = FALSE, rasterstack = TRUE)
-  #Crop
-  env <- st_as_stars(env)
-  extent <- st_bbox(c(xmin = vars$lonmin, xmax = vars$lonmax, ymin = vars$latmin, ymax = vars$latmax), crs = st_crs(env))
-  rc <- st_crop(x = env, y = extent)
-  return(rc)
-}
-
-extractEnvData <- function(rasterStack, points) {
-  env.stars <- terra::split(rasterStack)
-  spec.env <- stars::st_extract(env.stars, sf::st_coordinates(points))
-  na.omit(spec.env)
-  return(spec.env)
-  
-}
-
-getNegativePoints <- function(croppedRaster, nsamp = 1000) {
-  bbox_sf <- st_as_sfc(st_bbox(c(xmin = vars$lonmin, xmax = vars$lonmax, ymin = vars$latmin, ymax = vars$latmax), crs = st_crs(croppedRaster)))
-  set.seed(42)  # For reproducibility
-  random_points <- st_sample(bbox_sf, size = nsamp)
-  
-  # Convert points to a data frame and then to an sf object
-  random_points_sf <- st_as_sf(as.data.frame(st_coordinates(random_points)), coords = c("X", "Y"), crs = st_crs(croppedRaster))
-  
-  # Crop the points to the extent of the environmental layer
-  cropped_points <- st_intersection(random_points_sf, st_as_sf(croppedRaster, as_points = FALSE, merge = TRUE))
-  return(cropped_points)
-}
-
-### Get initial SDM model on startup. predict programatically. 
-
-#Get variables from config2.yaml. This contains layer names
-layers <- c(vars$envVars)
-
-#Call data from sdmpredictors package
-envRasterStack <- get_enviro_data(layers)
-
-
-absPoints <- getNegativePoints(envRasterStack) 
-abs <- extractEnvData(envRasterStack, absPoints) |> mutate(pa=0)
-
-
-#Now species points will be generated programatically -- jump to server
 
 ###########################################################################################################################
 
@@ -106,28 +32,59 @@ ui <- fluidPage(
     # Sidebar with a slider input for number of bins 
     sidebarLayout(
         sidebarPanel(
-            selectInput(inputId = "species", label = "Species:", choices = c("Doryteuthis pealeii", 
-                                                                             "Cetorhinus maximus", 
-                                                                             "Morone saxatilis", 
-                                                                             "Homerus americanus", 
-                                                                             "Salmo salar"),
-                                                            selected = "Cetorhinus maximus"), #sets default selection
+            selectInput(inputId = "species", label = "Species:", choices = c("Doryteuthis_pealeii", 
+                                                                             "Cetorhinus_maximus"),
+                                                            selected = "Cetorhinus_maximus"), #sets default selection
             
             selectInput(inputId = "year", label = "Year:", choices = c("current", 
                                                                              "2050", 
                                                                              "2100"),
                                                                     selected = "current"), #sets default selection
-            selectInput(inputId = "scenario", label = "RCP Scenario:", choices = c("current", 
-                                                                                   "RCP26", 
-                                                                                   "RCP45", 
-                                                                                   "RCP60", 
-                                                                                   "RCP85"),
-                                                                   selected = "current") #sets default selection
+            
+            #only allow scenarios to appear when present is not selected.
+            conditionalPanel(
+              condition = "input.year != 'current'",
+              selectInput(inputId = "scenario", label = "RCP Scenario:", choices = c("RCP26", 
+                                                                                     "RCP45", 
+                                                                                     "RCP60", 
+                                                                                     "RCP85"),selected = "RCP26"))
         ),
 
-        # Show a plot of the generated distribution
+        # display leaflet map and fun facts in main panel.
         mainPanel(
-           plotOutput("distPlot")
+          tabsetPanel(
+            tabPanel("Species Distribution Maps",
+            leafletOutput("sdmMap"),
+            "*",
+            span(textOutput("speciesFact"), style="color:navy; font-size:20px")
+            ), tabPanel("Refrences and Information",
+                        "Data:
+
+    OBIS (2023) Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. www.obis.org. Accessed: 2024-08-27
+
+    Assis, J., Fernández Bejarano, S.J., Salazar, V.W., Schepers, L., Gouvêa, L., Fragkopoulou, E., Leclercq, F., Vanhoorne, B., Tyberghein, L., Serrão, E.A., Verbruggen, H., De Clerck, O. (2024) Bio-ORACLE v3.0. Pushing marine data layers to the CMIP6 Earth system models of climate change research. Global Ecology and Biogeography. DOI: 10.1111/geb.13813. Accessed: 2024-08-27
+
+Packages:
+
+    Provoost P, Bosch S (2022). robis: Ocean Biodiversity Information System (OBIS) Client. R package version 2.11.3, https://CRAN.R-project.org/package=robis.
+
+    Bosch S, Fernandez S (2023). sdmpredictors: Species Distribution Modelling Predictor Datasets. R package version 0.2.15, https://CRAN.R-project.org/package=sdmpredictors.
+
+    Phillips S (2021). maxnet: Fitting 'Maxent' Species Distribution Models with 'glmnet'. R package version 0.1.4, https://CRAN.R-project.org/package=maxnet.
+
+    Pebesma E (2021). stars: Spatiotemporal Arrays, Raster and Vector Data Cubes. R package version 0.5-5, https://CRAN.R-project.org/package=stars.
+
+    Cheng J, Karambelkar B, Xie Y (2022). leaflet: Create Interactive Web Maps with the JavaScript 'Leaflet' Library. R package version 2.1.1, https://CRAN.R-project.org/package=leaflet.
+
+Other:
+
+    Wikipedia contributors. Representative Concentration Pathway. Wikipedia, The Free Encyclopedia. Wikipedia, The Free Encyclopedia, 15 Aug. 2024. Web. Accessed: 2024-08-30
+
+    “Cetorhinus Maximus.” Discover Fishes, www.floridamuseum.ufl.edu/discover-fish/species-profiles/cetorhinus-maximus/. Accessed 30 Aug. 2024.
+
+    Fisheries, NOAA. “Longfin Squid.” NOAA, 22 Aug. 2024, www.fisheries.noaa.gov/species/longfin-squid."
+                        )
+            )
         )
     )
 )
@@ -136,16 +93,16 @@ ui <- fluidPage(
 server <- function(input, output) {
     
   
-  
-    output$distPlot <- renderPlot({
-      speciesPoints <- get_species_data(input$species)
-      pres <- extractEnvData(envRasterStack, speciesPoints) |> mutate(pa=1)
-      allData <- rbind(pres, abs)
-      qplot(allData[2], allData[3])
+    output$sdmMap <- renderLeaflet({
+      #data created from loadRasters.R. NOTE: needed to be renamed manually to remove spaces. 
+      allData <- read.csv(paste0("SpeciesData/", input$species, "_currentPresAbs.csv")) %>% 
+        dplyr::select(-c(X)) #important!
       
+      #select prescence and absence
       presence_absence_df <- allData %>%
         dplyr::select(pa)
       
+      #get df of just environmental variables
       environmental_df <- allData %>%
         dplyr::select(-c(pa))
       
@@ -155,30 +112,81 @@ server <- function(input, output) {
       # Fit the MaxEnt model
       sdm.model <- maxnet::maxnet(p = presence_absence_vector, data = environmental_df)
       
-      future_layers <- sdmpredictors::list_layers_future(marine = TRUE) %>% 
-        filter(current_layer_code %in% c(vars$envVars)) %>% 
-        filter(year == input$year) %>% 
-        filter(scenario == input$scenario) %>% 
-        filter(model == "AOGCM")
-      future_layers_list <- future_layers$layer_code
+      #for current, just read current layers and project
+      if (input$year == "current") {
+        
+        BO22_salinitymean_bdmax <- read_stars("rasterImgs/BO22_salinitymean_bdmax.Pres.cropped.tif")
+        BO21_tempmean_bdmax <- read_stars("rasterImgs/BO21_tempmean_bdmax.Pres.cropped.tif")
+        BO22_chlomean_ss <- read_stars("rasterImgs/BO22_chlomean_ss.Pres.cropped.tif")
+        BO22_salinitymean_ss <- read_stars("rasterImgs/BO22_salinitymean_ss.Pres.cropped.tif")
+        BO21_tempmean_ss <- read_stars("rasterImgs/BO21_tempmean_ss.Pres.cropped.tif")
+        #need to concat (previously referred to as a rasterStack in the raster package)
+        concatPres <- c(BO21_tempmean_bdmax, BO21_tempmean_ss, BO22_chlomean_ss, BO22_salinitymean_bdmax, BO22_salinitymean_ss)
+        #Important to rename to the names in the model
+        names(concatPres) <- c("BO21_tempmean_bdmax", "BO21_tempmean_ss", "BO22_chlomean_ss", "BO22_salinitymean_bdmax", "BO22_salinitymean_ss")
+        
+        #predict model for current
+        predicted <- predict(sdm.model, concatPres) #, clamp = clamp, type = type) #, clamp = clamp, type = type)
+        #Make map
+        leaflet() %>% 
+          addTiles() %>% 
+          leafem::addStarsImage(predicted, 
+                                colors = viridis::viridis(256), 
+                                opacity = 0.8)
+        
+      } else {
+        #list raster files from directory and get names after filtering for desired RCP and year projection
+        files <- data.frame(filename = list.files("rasterImgs/")) %>% 
+          mutate(type = str_sub(filename,-3,-1)) %>% 
+          filter(type == "tif") %>% 
+          mutate(cropped = str_sub(filename, -11, -5)) %>% 
+          filter(cropped == "cropped") %>% 
+          mutate(rcp = substr(filename, start = 6, stop = 10)) %>% 
+          mutate(year = substr(filename, start = 12, stop = 15))
+        
+        
+        filteredFiles <- files %>% 
+          filter(year == input$year) %>% 
+          filter(rcp == input$scenario)
+        names <- filteredFiles$filename
+        
+        #get rasters
+        BO22_salinitymean_bdmax <- read_stars(paste0("rasterImgs/",names[1]))
+        BO21_tempmean_bdmax <- read_stars(paste0("rasterImgs/",names[2]))
+        BO22_chlomean_ss <- read_stars(paste0("rasterImgs/",names[3]))
+        BO22_salinitymean_ss <- read_stars(paste0("rasterImgs/",names[4]))
+        BO21_tempmean_ss <- read_stars(paste0("rasterImgs/",names[5]))
+        #concatenate and rename to match model inputs
+        concat2 <- c(BO21_tempmean_bdmax, BO21_tempmean_ss, BO22_chlomean_ss, BO22_salinitymean_bdmax, BO22_salinitymean_ss)
+        names(concat2) <- c("BO21_tempmean_bdmax", "BO21_tempmean_ss", "BO22_chlomean_ss", "BO22_salinitymean_bdmax", "BO22_salinitymean_ss")
+        
+        clamp <- TRUE      
+        type <- "logistic"
+        
+        # Predict species distribution within the cropped area
+        
+        predicted <- predict(sdm.model, concat2) #, clamp = clamp, type = type) #, clamp = clamp, type = type)
+        #plot
+    
+        leaflet() %>% 
+          addTiles() %>% 
+          leafem::addStarsImage(predicted, 
+                                colors = viridis::viridis(256), 
+                                opacity = 0.8) 
       
-      obj1 <- get_enviro_data(future_layers_list[1])
-      obj2 <- get_enviro_data(future_layers_list[2])
-      obj3 <- get_enviro_data(future_layers_list[3])
-      obj4 <- get_enviro_data(future_layers_list[4])
-      obj5 <- get_enviro_data(future_layers_list[5])
-      concat <- c(obj1, obj2, obj3, obj4, obj5)
-      names(concat) <- future_layers$current_layer_code
-      
-      clamp <- TRUE      
-      type <- "logistic"
-      
-      # Predict species distribution within the cropped area
-      predicted <- predict(sdm.model, concat, clamp = clamp, type = type)
-      
-      plot(predicted)
+      }
       
     })
+    
+    output$speciesFact <- renderText(
+      if (input$species == "Cetorhinus_maximus") {
+        "Fun Fact: Basking sharks are filter feeders and filter 2000 tons of seawater every hour for plankton."
+        
+      } else if (input$species == "Doryteuthis_pealeii") {
+        "Fun Fact: Longfin squids sometimes eat animals bigger than themselves, including others of their own species."
+      }
+      
+    )
 }
 
 # Run the application 
