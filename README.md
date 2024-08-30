@@ -4,17 +4,17 @@
 
 ### Overview
 
-This project was developed during [OceanHackWeek 2024] (https://oceanhackweek.org/ohw24/) with the goal of creating an interactive tool using `R` to show the predicted distribution of some iconic Gulf of Maine species. 
+This project was developed during [OceanHackWeek 2024](https://oceanhackweek.org/ohw24/) with the goal of creating an interactive tool using `R` to show the predicted distribution of some iconic Gulf of Maine species. 
 
 ### Data
 
 **Biological**
 
-We obtained species occurrence data from the [Ocean Biodiversity Information System (OBIS)] (https://obis.org/) via the `robis` package. Since absences were not recorded in this data, we generated 1000 random background points (pseudo-absences). 
+We obtained species occurrence data from the [Ocean Biodiversity Information System (OBIS)](https://obis.org/) via the `robis` package. Since absences were not recorded in this data, we generated 1000 random background points (pseudo-absences). 
 
 **Environmental**
 
-We obtained environmental data from [Bio-ORACLE] (https://www.bio-oracle.org/) and used the `stars` package to wrangle the raster files.
+We obtained environmental data from [Bio-ORACLE](https://www.bio-oracle.org/) and used the `stars` package to wrangle the raster files.
 
 We used predictions of future environmental conditions from the Atmosphere/Ocean General Circulation Model (AOGCM).
 
@@ -38,11 +38,11 @@ Using the `maxnet` package and our occurrence and environmental dataframes, we c
 
 6. **Predict and visualize**
 
-We selected the AOGCM climate model and scenarios RCP26, RCP45, RCP60, and RCP85 to predict future environmental conditions for our area of interest, and concatenated the environmental data raster files into a raster stack. Then, we plotted the suitability of the environment for the species on a scale of 0-1 (1 being most suitable). 
+We selected the AOGCM climate model and scenarios RCP26, RCP45, RCP60, and RCP85 to predict future environmental conditions for our area of interest, and concatenated the environmental data raster files into a raster stack. Then, we plotted the suitability of the environment for the species on a scale of 0-1 (1 being most suitable). We took the raster image for this plot and used the `leaflet` package to put it on a geographical map.
 
 7. **Develop tool**
 
-Lastly, we created an R Shiny app to make our model accessible and interactive. We added dropdown boxes for users to select from five different species, year (current, 2050, or 2100), and climate scenarios to visualize SDMs for their selected inputs.
+Lastly, we created an R Shiny app to make our model accessible and interactive. We added dropdown boxes for users to select from five different species, year (current, 2050, or 2100), and climate scenarios to visualize SDMs on a map for their selected inputs.
 
 ## Collaborators
 
