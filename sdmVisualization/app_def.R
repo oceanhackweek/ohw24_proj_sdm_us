@@ -140,6 +140,26 @@ server <- function(input, output) {
       # Fit the MaxEnt model
       sdm.model <- maxnet::maxnet(p = presence_absence_vector, data = environmental_df)
       
+      if (input$year == "current") {
+        
+        BO22_salinitymean_bdmax <- read_stars("rasterImgs/BO22_salinitymean_bdmax.Pres.cropped.tif")
+        BO21_tempmean_bdmax <- read_stars("rasterImgs/BO21_tempmean_bdmax.Pres.cropped.tif")
+        BO22_chlomean_ss <- read_stars("rasterImgs/BO22_chlomean_ss.Pres.cropped.tif")
+        BO22_salinitymean_ss <- read_stars("rasterImgs/BO22_salinitymean_ss.Pres.cropped.tif")
+        BO21_tempmean_ss <- read_stars("rasterImgs/BO21_tempmean_ss.Pres.cropped.tif")
+        
+        concatPres <- c(BO21_tempmean_bdmax, BO21_tempmean_ss, BO22_chlomean_ss, BO22_salinitymean_bdmax, BO22_salinitymean_ss)
+        names(concatPres) <- c("BO21_tempmean_bdmax", "BO21_tempmean_ss", "BO22_chlomean_ss", "BO22_salinitymean_bdmax", "BO22_salinitymean_ss")
+        
+        predicted <- predict(sdm.model, concatPres) #, clamp = clamp, type = type) #, clamp = clamp, type = type)
+        
+        leaflet() %>% 
+          addTiles() %>% 
+          leafem::addStarsImage(predicted, 
+                                colors = viridis::viridis(256), 
+                                opacity = 0.8)
+        
+      } else{
       files <- data.frame(filename = list.files("rasterImgs/")) %>% 
         mutate(type = str_sub(filename,-3,-1)) %>% 
         filter(type == "tif") %>% 
@@ -176,7 +196,7 @@ server <- function(input, output) {
                               colors = viridis::viridis(256), 
                               opacity = 0.8)
       
-      
+      }
       
     })
 }
