@@ -4,14 +4,67 @@ format: html
 editor: visual
 ---
 
+```{r message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+
+```
+
 # Maine Icons: A Species Distribution Model and Educational Tool to Highlight Gulf of Maine Creatures
+
+**Authors: Hallie Arno, Mugdha Chiplunkar, Jessie Maguire, Camille Ross, Ben Tupper**
+
+------------------------------------------------------------------------
+
+## Project Overview
+
+This project was developed during [OceanHackWeek 2024](https://oceanhackweek.org/ohw24/) with the goal of creating an interactive tool using `R` to show the predicted distribution of some iconic Gulf of Maine species.
+
+------------------------------------------------------------------------
+
+## Project goals
+
+To create a species distribution model for various marine species native to the Gulf of Maine that can be modified by switching out the year, RCP climate scenario, and species of interest. We wanted to turn our results into an interactive app that can be used for educational purposes to visualize the maps of forecasted distribution shiftsunder several scenarios.
+
+------------------------------------------------------------------------
+
+## What is a species distribution model?
+
+A species distribution model (SDM) is a tool used to predict the geographic distribution of a species based on environmental conditions and species occurrence data. By analyzing the relationship between known locations where a species is found and the environmental factors at those locations (like temperature, precipitation, or habitat type), SDMs can estimate the suitability of different areas for that species. These models are commonly used in ecology and conservation to understand species ranges, assess the impact of climate change, and guide habitat management efforts.
+
+For our project, we decided to focus on the Gulf of Maine as our geographic area, since it is warming faster than 99% of our world's oceans.
+
+------------------------------------------------------------------------
+
+## Data
+
+**Biological**
+
+We obtained species occurrence data from the [Ocean Biodiversity Information System (OBIS)](https://obis.org/) via the `robis` package. Since absences were not recorded in this data, we generated 1000 random background points (pseudo-absences).
+
+**Environmental**
+
+We obtained environmental data from [Bio-ORACLE](https://www.bio-oracle.org/) and used the `stars` package to wrangle the raster files.
+
+We used predictions of future environmental conditions from the Atmosphere/Ocean General Circulation Model (AOGCM).
+
+------------------------------------------------------------------------
+
+## References
+
+-   OBIS (2023) Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. www.obis.org. Accessed: 2024-08-27
+
+-   Assis, J., Fernández Bejarano, S.J., Salazar, V.W., Schepers, L., Gouvêa, L., Fragkopoulou, E., Leclercq, F., Vanhoorne, B., Tyberghein, L., Serrão, E.A., Verbruggen, H., De Clerck, O. (2024) Bio-ORACLE v3.0. Pushing marine data layers to the CMIP6 Earth system models of climate change research. Global Ecology and Biogeography. DOI:
+
+------------------------------------------------------------------------
+
+## Project Workflow
 
 Entire workflow of SDM using Maxnet package in R
 
 ## Installing libraries
 
 ```{r}
-  #required libraries for data retreival, cleaning, and modeling
+  #required libraries for data retrieval, cleaning, and modeling
 library(tidyverse)
 library(yaml)
 library(raster)
@@ -21,9 +74,11 @@ library(dismo)
 library(terra)
 library(maxnet)
 library(ggplot2)
+library(leaflet)
+library(leafem)
 ```
 
-Create YAML file with all variables used in functions (spatial and temporal bounds, species names, and env layers)
+Create YAML file to define all variables used in functions (spatial and temporal bounds, species names, and env layers)
 
 ```{r}
 vars <- read_yaml("config2.yaml")
@@ -75,7 +130,6 @@ get_enviro_data <- function(envvars) {
 
   #extract specific environmental covariates 
   #ph <- get_enviro_data("BO_ph")
-
 extractEnvData <- function(rasterStack, points) {
   env.stars <- terra::split(rasterStack)
   spec.env <- stars::st_extract(env.stars, sf::st_coordinates(points))
@@ -153,7 +207,6 @@ future_layers <- sdmpredictors::list_layers_future(marine = TRUE) %>%
 future_layers_list <- future_layers$layer_code
 
   #concatenate and stack all environmental raster layers 
-
 BO21_tempmean_bdmax <- get_enviro_data(future_layers_list[1])
 BO21_tempmean_ss <- get_enviro_data(future_layers_list[2])
 BO22_chlomean_ss <- get_enviro_data(future_layers_list[3])
@@ -188,7 +241,7 @@ m
 ## Plotting SDM for alternate year and climate scenario
 
 ```{r}
-  #plotting SDM for the year 2100 in climate scenatio RCP85
+  #plotting SDM for the year 2100 in climate scenario RCP85
 future_layers_RCP85 <- sdmpredictors::list_layers_future(marine = TRUE) %>% 
   filter(current_layer_code %in% c(vars$envVars)) %>% 
   filter(year == "2100") %>% 
@@ -197,7 +250,6 @@ future_layers_RCP85 <- sdmpredictors::list_layers_future(marine = TRUE) %>%
 future_layers_list_RCP85 <- future_layers_RCP85$layer_code
 
   #concatenate and stack all environmental raster layers 
-
 BO21_tempmean_bdmax <- get_enviro_data(future_layers_list_RCP85[1])
 BO21_tempmean_ss <- get_enviro_data(future_layers_list_RCP85[2])
 BO22_chlomean_ss <- get_enviro_data(future_layers_list_RCP85[3])
@@ -233,5 +285,3 @@ m
 ## Interactive R Shiny website
 
 We created an interactive website to select desired species, year, and climate scenario using drop-down menus to visualize the corresponding species distribution model!
-
-Link to website:
