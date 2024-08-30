@@ -1,6 +1,9 @@
 species:
 - Doryteuthis pealeii
 - Cetorhinus maximus
+- Morone saxatilis
+- Homerus americanus
+- Salmo salar
 latmin: 42.0
 latmax: 45.0
 lonmin: -71.0
