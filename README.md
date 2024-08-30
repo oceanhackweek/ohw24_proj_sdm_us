@@ -52,3 +52,46 @@ Lastly, we created an R Shiny app to make our model accessible and interactive. 
 | Hallie              | Participant         |
 | Jessie              | Participant         |
 | Mugdha              | Participant         |
+
+## References
+
+**Data**
+
+* OBIS (2023) Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. www.obis.org. Accessed: 2024-08-27
+
+* Assis, J., Fernández Bejarano, S.J., Salazar, V.W., Schepers, L., Gouvêa, L., Fragkopoulou, E., Leclercq, F., Vanhoorne, B., Tyberghein, L., Serrão, E.A., Verbruggen, H., De Clerck, O. (2024) Bio-ORACLE v3.0. Pushing marine data layers to the CMIP6 Earth system models of climate change research. Global Ecology and Biogeography. DOI: 10.1111/geb.13813. Accessed: 2024-08-27
+
+**Packages**
+
+* Provoost P, Bosch S (2022). _robis: Ocean
+  Biodiversity Information System (OBIS) Client_.
+  R package version 2.11.3,
+  <https://CRAN.R-project.org/package=robis>.
+  
+* Bosch S, Fernandez S (2023). _sdmpredictors:
+  Species Distribution Modelling Predictor
+  Datasets_. R package version 0.2.15,
+  <https://CRAN.R-project.org/package=sdmpredictors>.
+  
+* Phillips S (2021). _maxnet: Fitting 'Maxent'
+  Species Distribution Models with 'glmnet'_. R
+  package version 0.1.4,
+  <https://CRAN.R-project.org/package=maxnet>.
+  
+* Pebesma E (2021). _stars: Spatiotemporal Arrays,
+  Raster and Vector Data Cubes_. R package version
+  0.5-5,
+  <https://CRAN.R-project.org/package=stars>.
+  
+* Cheng J, Karambelkar B, Xie Y (2022). _leaflet:
+  Create Interactive Web Maps with the JavaScript
+  'Leaflet' Library_. R package version 2.1.1,
+  <https://CRAN.R-project.org/package=leaflet>.
+  
+**Other**
+
+* Wikipedia contributors. "Representative Concentration Pathway." Wikipedia, The Free Encyclopedia. Wikipedia, The Free Encyclopedia, 15 Aug. 2024. Web. Accessed: 2024-08-30
+
+* “Cetorhinus Maximus.” Discover Fishes, www.floridamuseum.ufl.edu/discover-fish/species-profiles/cetorhinus-maximus/. Accessed 30 Aug. 2024. 
+
+* Fisheries, NOAA. “Longfin Squid.” NOAA, 22 Aug. 2024, www.fisheries.noaa.gov/species/longfin-squid. 
