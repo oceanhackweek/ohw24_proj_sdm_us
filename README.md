@@ -18,7 +18,7 @@ Then, we gathered basking shark occurrence data from within these bounds and cre
 We picked certain environmental variables we were interested in, which were sea surface temperature, bottom temperature, sea surface salinity, bottom salinity, dissolved oxygen, chlorophyll concentration, depth, and pH.
 We then found these variables in our set bounds 
 
-3. 
+3. **
 4. 
 
 ### Data
