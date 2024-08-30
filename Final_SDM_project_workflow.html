@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Team_SDM_OHW24</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="Final_SDM_project_workflow_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Final_SDM_project_workflow_files/libs/quarto-html/quarto.js"></script>
+<script src="Final_SDM_project_workflow_files/libs/quarto-html/popper.min.js"></script>
+<script src="Final_SDM_project_workflow_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Final_SDM_project_workflow_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Final_SDM_project_workflow_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Final_SDM_project_workflow_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Final_SDM_project_workflow_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Final_SDM_project_workflow_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Final_SDM_project_workflow_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="Final_SDM_project_workflow_files/libs/htmlwidgets-1.6.1/htmlwidgets.js"></script>
+<script src="Final_SDM_project_workflow_files/libs/jquery-1.12.4/jquery.min.js"></script>
+<link href="Final_SDM_project_workflow_files/libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+<script src="Final_SDM_project_workflow_files/libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="Final_SDM_project_workflow_files/libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+<script src="Final_SDM_project_workflow_files/libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="Final_SDM_project_workflow_files/libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="Final_SDM_project_workflow_files/libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+<script src="Final_SDM_project_workflow_files/libs/leaflet-binding-2.1.1/leaflet.js"></script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Team_SDM_OHW24</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="maine-icons-a-species-distribution-model-and-educational-tool-to-highlight-gulf-of-maine-creatures" class="level1">
+<h1>Maine Icons: A Species Distribution Model and Educational Tool to Highlight Gulf of Maine Creatures</h1>
+<p>Entire workflow of SDM using Maxnet package in R</p>
+<section id="installing-libraries" class="level2">
+<h2 class="anchored" data-anchor-id="installing-libraries">Installing libraries</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">#required libraries for data retreival, cleaning, and modeling</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.0     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.1     ✔ tibble    3.1.8
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.1     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the ]8;;http://conflicted.r-lib.org/conflicted package]8;; to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(yaml)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: sp
+
+Attaching package: 'raster'
+
+The following object is masked from 'package:dplyr':
+
+    select</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(robis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'robis'
+
+The following object is masked from 'package:raster':
+
+    area</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: abind
+Loading required package: sf
+Linking to GEOS 3.11.1, GDAL 3.6.2, PROJ 9.1.0; sf_use_s2() is TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dismo)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>terra 1.7.3
+
+Attaching package: 'terra'
+
+The following object is masked from 'package:robis':
+
+    area
+
+The following object is masked from 'package:tidyr':
+
+    extract</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maxnet)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Create YAML file with all variables used in functions (spatial and temporal bounds, species names, and env layers)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">&lt;-</span> <span class="fu">read_yaml</span>(<span class="st">"config2.yaml"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="get-species-data-from-obis-using-function" class="level2">
+<h2 class="anchored" data-anchor-id="get-species-data-from-obis-using-function">Get species data from Obis using function</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Input: Latin name of a marine species, Output: data frame with occurrence points</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>get_species_data <span class="ot">&lt;-</span> <span class="cf">function</span>(spec) {</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    species_data <span class="ot">&lt;-</span> robis<span class="sc">::</span><span class="fu">occurrence</span>(spec)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    withDates <span class="ot">&lt;-</span> species_data <span class="sc">%&gt;%</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">separate</span>(eventDate, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"Year"</span>, <span class="st">"Month"</span>), <span class="at">sep =</span> <span class="st">"-"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Year)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"^</span><span class="sc">\\</span><span class="st">d{4}$"</span>, <span class="fu">as.character</span>(Year)))</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    filtered_data <span class="ot">&lt;-</span> <span class="fu">subset</span>(withDates, date_year <span class="sc">&gt;=</span> vars<span class="sc">$</span>start_year <span class="sc">&amp;</span> date_year <span class="sc">&lt;=</span> vars<span class="sc">$</span>end_year)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    bounded_data <span class="ot">&lt;-</span> filtered_data <span class="sc">%&gt;%</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(decimalLatitude <span class="sc">&gt;=</span> vars<span class="sc">$</span>latmin <span class="sc">&amp;</span> decimalLatitude <span class="sc">&lt;=</span> vars<span class="sc">$</span>latmax <span class="sc">&amp;</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>               decimalLongitude <span class="sc">&gt;=</span> vars<span class="sc">$</span>lonmin <span class="sc">&amp;</span> decimalLongitude <span class="sc">&lt;=</span> vars<span class="sc">$</span>lonmax) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">select</span>(datasetName, decimalLatitude, decimalLongitude, Year, Month, individualCount, vernacularName)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    obs_sf <span class="ot">&lt;-</span> bounded_data <span class="sc">%&gt;%</span> </span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    sf<span class="sc">::</span><span class="fu">st_as_sf</span>(</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"decimalLongitude"</span>, <span class="st">"decimalLatitude"</span>),</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">crs =</span> <span class="fu">st_crs</span>(<span class="dv">4326</span>))</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(obs_sf)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="obtain-and-extract-environmental-data-from-biooracle-using-functions" class="level2">
+<h2 class="anchored" data-anchor-id="obtain-and-extract-environmental-data-from-biooracle-using-functions">Obtain and extract environmental data from BioOracle using functions</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Input: variables, output: raster stack</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>get_enviro_data <span class="ot">&lt;-</span> <span class="cf">function</span>(envvars) {</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#layercodes &lt;- var</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#dir = "ohw24_proj_sdm_us"</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  env <span class="ot">&lt;-</span> sdmpredictors<span class="sc">::</span><span class="fu">load_layers</span>(envvars, <span class="at">equalarea =</span> <span class="cn">FALSE</span>, <span class="at">rasterstack =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Crop</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  env <span class="ot">&lt;-</span> <span class="fu">st_as_stars</span>(env)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  extent <span class="ot">&lt;-</span> <span class="fu">st_bbox</span>(<span class="fu">c</span>(<span class="at">xmin =</span> vars<span class="sc">$</span>lonmin, <span class="at">xmax =</span> vars<span class="sc">$</span>lonmax, <span class="at">ymin =</span> vars<span class="sc">$</span>latmin, <span class="at">ymax =</span> vars<span class="sc">$</span>latmax), <span class="at">crs =</span> <span class="fu">st_crs</span>(env))</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  rc <span class="ot">&lt;-</span> <span class="fu">st_crop</span>(<span class="at">x =</span> env, <span class="at">y =</span> extent)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(rc)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="co">#extract specific environmental covariates </span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">#ph &lt;- get_enviro_data("BO_ph")</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>extractEnvData <span class="ot">&lt;-</span> <span class="cf">function</span>(rasterStack, points) {</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  env.stars <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">split</span>(rasterStack)</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>  spec.env <span class="ot">&lt;-</span> stars<span class="sc">::</span><span class="fu">st_extract</span>(env.stars, sf<span class="sc">::</span><span class="fu">st_coordinates</span>(points))</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>(spec.env)</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(spec.env)</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="creating-pseudo-absence-points-and-cropping-it-to-environmental-layer" class="level2">
+<h2 class="anchored" data-anchor-id="creating-pseudo-absence-points-and-cropping-it-to-environmental-layer">Creating pseudo-absence points and cropping it to environmental layer</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">#generate pseudo-absence points</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>getNegativePoints <span class="ot">&lt;-</span> <span class="cf">function</span>(croppedRaster, <span class="at">nsamp =</span> <span class="dv">1000</span>) {</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  bbox_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sfc</span>(<span class="fu">st_bbox</span>(<span class="fu">c</span>(<span class="at">xmin =</span> vars<span class="sc">$</span>lonmin, <span class="at">xmax =</span> vars<span class="sc">$</span>lonmax, <span class="at">ymin =</span> vars<span class="sc">$</span>latmin, <span class="at">ymax =</span> vars<span class="sc">$</span>latmax), <span class="at">crs =</span> <span class="fu">st_crs</span>(croppedRaster)))</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">42</span>)  <span class="co"># For reproducibility</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  random_points <span class="ot">&lt;-</span> <span class="fu">st_sample</span>(bbox_sf, <span class="at">size =</span> nsamp)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert points to a data frame and then to an sf object</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  random_points_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(<span class="fu">as.data.frame</span>(<span class="fu">st_coordinates</span>(random_points)), <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"X"</span>, <span class="st">"Y"</span>), <span class="at">crs =</span> <span class="fu">st_crs</span>(croppedRaster))</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Crop the points to the extent of the environmental layer</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  cropped_points <span class="ot">&lt;-</span> <span class="fu">st_intersection</span>(random_points_sf, <span class="fu">st_as_sf</span>(croppedRaster, <span class="at">as_points =</span> <span class="cn">FALSE</span>, <span class="at">merge =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(cropped_points)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="call-functions-to-prep-the-data-for-model" class="level2">
+<h2 class="anchored" data-anchor-id="call-functions-to-prep-the-data-for-model">Call functions to prep the data for model</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>layers <span class="ot">&lt;-</span> <span class="fu">c</span>(vars<span class="sc">$</span>envVars)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>envRasterStack <span class="ot">&lt;-</span> <span class="fu">get_enviro_data</span>(layers[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get_datadir(datadir): file.path(tempdir(), "sdmpredictors") will be
+used as datadir, set options(sdmpredictors_datadir="&lt;directory&gt;") to avoid
+re-downloading the data in every session or set the datadir parameter in
+load_layers</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>speciesPoints <span class="ot">&lt;-</span> <span class="fu">get_species_data</span>(vars<span class="sc">$</span>species[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Retrieved 5000 records of approximately 26807 (18%)
+Retrieved 10000 records of
+approximately 26807 (37%)
+Retrieved 15000 records of approximately 26807
+(55%)
+Retrieved 20000 records of approximately 26807 (74%)
+Retrieved 25000
+records of approximately 26807 (93%)
+Retrieved 26807 records of approximately
+26807 (100%)</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Expected 2 pieces. Additional pieces discarded in 26632 rows [1, 2, 3, 4, 5, 6,
+7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...].</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Expected 2 pieces. Missing pieces filled with `NA` in 19 rows [348, 677, 2069,
+6816, 7958, 10054, 10190, 11458, 12054, 12298, 14319, 17150, 17314, 19733,
+23866, 24076, 24933, 25078, 25372].</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>absPoints <span class="ot">&lt;-</span> <span class="fu">getNegativePoints</span>(envRasterStack) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: attribute variables are assumed to be spatially constant throughout
+all geometries</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>pres <span class="ot">&lt;-</span> <span class="fu">extractEnvData</span>(envRasterStack, speciesPoints) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">pa=</span><span class="dv">1</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>abs <span class="ot">&lt;-</span> <span class="fu">extractEnvData</span>(envRasterStack, absPoints) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">pa=</span><span class="dv">0</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>allData <span class="ot">&lt;-</span> <span class="fu">rbind</span>(pres, abs)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(allData)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  BO21_tempmean_bdmax BO21_tempmean_ss BO22_chlomean_ss BO22_salinitymean_bdmax
+1            9.037187         8.816785         0.794582                33.28190
+2            8.975822         9.455448         0.379411                34.17289
+3            8.063634        11.311302         0.950225                32.16812
+4            6.821900         8.662882         0.872278                32.55891
+5           11.193931        10.476288         0.459501                35.08810
+6           10.472772         8.919743         0.706432                34.48708
+  BO22_salinitymean_ss pa
+1             31.44981  1
+2             31.26409  1
+3             31.49066  1
+4             31.36376  1
+5             31.95920  1
+6             31.48483  1</code></pre>
+</div>
+</div>
+</section>
+<section id="fit-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="fit-the-model">Fit the model</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">#sdm.model \&lt;- maxnet::maxnet(presence_absence_df, environmental_df)}</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">#responses \&lt;- plot(sdm.model, type = "cloglog")</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>presence_absence_df <span class="ot">&lt;-</span> allData <span class="sc">%&gt;%</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(pa)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>environmental_df <span class="ot">&lt;-</span> allData <span class="sc">%&gt;%</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(pa))</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Ensure that 'Presence' column is extracted as a numeric vector</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>presence_absence_vector <span class="ot">&lt;-</span> presence_absence_df<span class="sc">$</span>pa</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Fit the MaxEnt model</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>sdm.model <span class="ot">&lt;-</span> maxnet<span class="sc">::</span><span class="fu">maxnet</span>(<span class="at">p =</span> presence_absence_vector, <span class="at">data =</span> environmental_df)</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Plot the response curves</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>responses <span class="ot">&lt;-</span> <span class="fu">plot</span>(sdm.model, <span class="at">type =</span> <span class="st">"logistic"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Final_SDM_project_workflow_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="process-future-environmental-scenario-data-to-predict-species-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="process-future-environmental-scenario-data-to-predict-species-distribution">Process future environmental scenario data to predict species distribution</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>future_layers <span class="ot">&lt;-</span> sdmpredictors<span class="sc">::</span><span class="fu">list_layers_future</span>(<span class="at">marine =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(current_layer_code <span class="sc">%in%</span> <span class="fu">c</span>(vars<span class="sc">$</span>envVars)) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="st">"2050"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(scenario <span class="sc">==</span> <span class="st">"RCP26"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(model <span class="sc">==</span> <span class="st">"AOGCM"</span>)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>future_layers_list <span class="ot">&lt;-</span> future_layers<span class="sc">$</span>layer_code</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">#concatenate and stack all environmental raster layers </span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>BO21_tempmean_bdmax <span class="ot">&lt;-</span> <span class="fu">get_enviro_data</span>(future_layers_list[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get_datadir(datadir): file.path(tempdir(), "sdmpredictors") will be
+used as datadir, set options(sdmpredictors_datadir="&lt;directory&gt;") to avoid
+re-downloading the data in every session or set the datadir parameter in
+load_layers</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>BO21_tempmean_ss <span class="ot">&lt;-</span> <span class="fu">get_enviro_data</span>(future_layers_list[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get_datadir(datadir): file.path(tempdir(), "sdmpredictors") will be
+used as datadir, set options(sdmpredictors_datadir="&lt;directory&gt;") to avoid
+re-downloading the data in every session or set the datadir parameter in
+load_layers</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>BO22_chlomean_ss <span class="ot">&lt;-</span> <span class="fu">get_enviro_data</span>(future_layers_list[<span class="dv">3</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get_datadir(datadir): file.path(tempdir(), "sdmpredictors") will be
+used as datadir, set options(sdmpredictors_datadir="&lt;directory&gt;") to avoid
+re-downloading the data in every session or set the datadir parameter in
+load_layers</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>BO22_salinitymean_bdmax <span class="ot">&lt;-</span> <span class="fu">get_enviro_data</span>(future_layers_list[<span class="dv">4</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get_datadir(datadir): file.path(tempdir(), "sdmpredictors") will be
+used as datadir, set options(sdmpredictors_datadir="&lt;directory&gt;") to avoid
+re-downloading the data in every session or set the datadir parameter in
+load_layers</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>BO22_salinitymean_ss <span class="ot">&lt;-</span> <span class="fu">get_enviro_data</span>(future_layers_list[<span class="dv">5</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get_datadir(datadir): file.path(tempdir(), "sdmpredictors") will be
+used as datadir, set options(sdmpredictors_datadir="&lt;directory&gt;") to avoid
+re-downloading the data in every session or set the datadir parameter in
+load_layers</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>concat <span class="ot">&lt;-</span> <span class="fu">c</span>(BO21_tempmean_bdmax, BO21_tempmean_ss, BO22_chlomean_ss, BO22_salinitymean_bdmax, BO22_salinitymean_ss)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(concat) <span class="ot">&lt;-</span> future_layers<span class="sc">$</span>current_layer_code</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#logistic model type</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>clamp <span class="ot">&lt;-</span> <span class="cn">TRUE</span>      </span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>type <span class="ot">&lt;-</span> <span class="st">"logistic"</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Predict species distribution within the cropped area</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>predicted <span class="ot">&lt;-</span> <span class="fu">predict</span>(sdm.model, concat)</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(predicted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Final_SDM_project_workflow_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="plot-the-sdm-using-leaflet" class="level2">
+<h2 class="anchored" data-anchor-id="plot-the-sdm-using-leaflet">Plot the SDM using leaflet</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  leafem<span class="sc">::</span><span class="fu">addStarsImage</span>(predicted, </span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">colors =</span> viridis<span class="sc">::</span><span class="fu">viridis</span>(<span class="dv">256</span>), </span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">opacity =</span> <span class="fl">0.8</span>)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-d4ab1cd10b959b2a18e8" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-d4ab1cd10b959b2a18e8">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addRasterImage","args":["data:image/png;base64,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",[[45,-71],[42,-64]],0.8,null,"stars","stars"]}],"limits":{"lat":[42,45],"lng":[-71,-64]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="plotting-sdm-for-alternate-year-and-climate-scenario" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-sdm-for-alternate-year-and-climate-scenario">Plotting SDM for alternate year and climate scenario</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">#plotting SDM for the year 2100 in climate scenatio RCP85</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>future_layers_RCP85 <span class="ot">&lt;-</span> sdmpredictors<span class="sc">::</span><span class="fu">list_layers_future</span>(<span class="at">marine =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(current_layer_code <span class="sc">%in%</span> <span class="fu">c</span>(vars<span class="sc">$</span>envVars)) <span class="sc">%&gt;%</span> </span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="st">"2100"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(scenario <span class="sc">==</span> <span class="st">"RCP85"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(model <span class="sc">==</span> <span class="st">"AOGCM"</span>)</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>future_layers_list_RCP85 <span class="ot">&lt;-</span> future_layers_RCP85<span class="sc">$</span>layer_code</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">#concatenate and stack all environmental raster layers </span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>BO21_tempmean_bdmax <span class="ot">&lt;-</span> <span class="fu">get_enviro_data</span>(future_layers_list_RCP85[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get_datadir(datadir): file.path(tempdir(), "sdmpredictors") will be
+used as datadir, set options(sdmpredictors_datadir="&lt;directory&gt;") to avoid
+re-downloading the data in every session or set the datadir parameter in
+load_layers</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>BO21_tempmean_ss <span class="ot">&lt;-</span> <span class="fu">get_enviro_data</span>(future_layers_list_RCP85[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get_datadir(datadir): file.path(tempdir(), "sdmpredictors") will be
+used as datadir, set options(sdmpredictors_datadir="&lt;directory&gt;") to avoid
+re-downloading the data in every session or set the datadir parameter in
+load_layers</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>BO22_chlomean_ss <span class="ot">&lt;-</span> <span class="fu">get_enviro_data</span>(future_layers_list_RCP85[<span class="dv">3</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get_datadir(datadir): file.path(tempdir(), "sdmpredictors") will be
+used as datadir, set options(sdmpredictors_datadir="&lt;directory&gt;") to avoid
+re-downloading the data in every session or set the datadir parameter in
+load_layers</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>BO22_salinitymean_bdmax <span class="ot">&lt;-</span> <span class="fu">get_enviro_data</span>(future_layers_list_RCP85[<span class="dv">4</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get_datadir(datadir): file.path(tempdir(), "sdmpredictors") will be
+used as datadir, set options(sdmpredictors_datadir="&lt;directory&gt;") to avoid
+re-downloading the data in every session or set the datadir parameter in
+load_layers</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>BO22_salinitymean_ss <span class="ot">&lt;-</span> <span class="fu">get_enviro_data</span>(future_layers_list_RCP85[<span class="dv">5</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in get_datadir(datadir): file.path(tempdir(), "sdmpredictors") will be
+used as datadir, set options(sdmpredictors_datadir="&lt;directory&gt;") to avoid
+re-downloading the data in every session or set the datadir parameter in
+load_layers</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>concat <span class="ot">&lt;-</span> <span class="fu">c</span>(BO21_tempmean_bdmax, BO21_tempmean_ss, BO22_chlomean_ss, BO22_salinitymean_bdmax, BO22_salinitymean_ss)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(concat) <span class="ot">&lt;-</span> future_layers_RCP85<span class="sc">$</span>current_layer_code</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#logistic model type</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>clamp <span class="ot">&lt;-</span> <span class="cn">TRUE</span>      </span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>type <span class="ot">&lt;-</span> <span class="st">"logistic"</span></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Predict species distribution within the cropped area</span></span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>predicted_RCP85 <span class="ot">&lt;-</span> <span class="fu">predict</span>(sdm.model, concat)</span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(predicted_RCP85)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Final_SDM_project_workflow_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="map-sdm-for-rcp85-in-year-2100-in-leaflet-and-visualize-results" class="level2">
+<h2 class="anchored" data-anchor-id="map-sdm-for-rcp85-in-year-2100-in-leaflet-and-visualize-results">Map SDM for RCP85 in year 2100 in leaflet and visualize results</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  leafem<span class="sc">::</span><span class="fu">addStarsImage</span>(predicted_RCP85, </span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">colors =</span> viridis<span class="sc">::</span><span class="fu">viridis</span>(<span class="dv">256</span>), </span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">opacity =</span> <span class="fl">0.8</span>)</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-e277bbd97e08607ecd9a" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-e277bbd97e08607ecd9a">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addRasterImage","args":["data:image/png;base64,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",[[45,-71],[42,-64]],0.8,null,"stars","stars"]}],"limits":{"lat":[42,45],"lng":[-71,-64]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="interactive-r-shiny-website" class="level2">
+<h2 class="anchored" data-anchor-id="interactive-r-shiny-website">Interactive R Shiny website</h2>
+<p>We created an interactive website to select desired species, year, and climate scenario using drop-down menus to visualize the corresponding species distribution model!</p>
+<p>Link to website:</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
